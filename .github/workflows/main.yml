@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v1
+
+      - name: install and build
+        run: |
+          npm install
+          npm run build
+
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          branch: gh-pages
+          folder: dist
