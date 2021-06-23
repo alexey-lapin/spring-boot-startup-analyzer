@@ -4,27 +4,19 @@
     <router-link to="/about">About</router-link>
   </div>
   <router-view />
+  <Toast />
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script lang="ts">
+import { Options, Vue } from "vue-class-component";
+import Toast from "primevue/toast";
 
-#nav {
-  padding: 30px;
-}
+@Options({
+  components: {
+    Toast,
+  },
+})
+export default class App extends Vue {}
+</script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<style></style>
