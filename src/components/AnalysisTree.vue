@@ -21,15 +21,15 @@
           icon="pi pi-plus"
           label="Expand All"
           @click="expandAll"
-          :loading="isExpanding"
           v-tooltip.top="'it may take some time'"
-          class="p-mr-1"
+          class="p-button-outlined p-mr-1"
         />
         <Button
           type="button"
           icon="pi pi-minus"
           label="Collapse All"
           @click="collapseAll"
+          class="p-button-outlined"
         />
       </div>
     </template>
@@ -57,40 +57,41 @@
       header="Duration"
       headerStyle="width: 5em"
     ></Column>
+    <!-- <Column
+      v-if="isColumnSelected('Percentage')"
+      field="percentage"
+      header="Percentage"
+      headerStyle="width: 5em"
+    ></Column> -->
     <Column v-if="isColumnSelected('Tags')" field="tags" header="Tags">
       <template #body="slotProps">
-        <DataTable
-          v-if="slotProps.node.data.tags.length > 0"
-          :value="slotProps.node.data.tags"
-          class="p-datatable-sm"
-          showGridlines
-        >
-          <Column field="key" headerStyle="display: none"></Column>
-          <Column field="value" headerStyle="display: none"></Column>
-        </DataTable>
+        <TagsTable :row="slotProps.node" />
       </template>
     </Column>
   </TreeTable>
 </template>
 
 <script lang="ts">
-import Event from "@/model/Event";
 import Button from "primevue/button";
-import TreeTable from "primevue/treetable";
+import Column from "primevue/column";
 import DataTable from "primevue/datatable";
 import MultiSelect from "primevue/multiselect";
-import Column from "primevue/column";
+import TreeTable from "primevue/treetable";
 import { Options, Vue } from "vue-class-component";
 import { mapGetters } from "vuex";
+
+import TagsTable from "@/components/TagsTable.vue";
+import Event from "@/model/Event";
 import TreeNode from "@/model/TreeNode";
 
 @Options({
   components: {
     Button,
-    TreeTable,
     Column,
     DataTable,
     MultiSelect,
+    TagsTable,
+    TreeTable,
   },
   computed: {
     ...mapGetters(["events", "nodes", "isAnalyzed"]),
@@ -101,7 +102,6 @@ export default class AnalysisTree extends Vue {
   nodes!: TreeNode[];
   isAnalyzed!: boolean;
 
-  isExpanding = false;
   expandedKeys: Record<string, boolean> = {};
 
   columns: ColumnDescriptor[] = [

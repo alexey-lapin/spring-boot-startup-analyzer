@@ -4,7 +4,7 @@
       v-model="url"
       placeholder="http://localhost:8080/actuator/startup"
     />
-    <Button label="Analyze URL" @click="readContent" />
+    <Button label="Analyze URL" icon="bi bi-link" @click="readContent" />
   </div>
 </template>
 
@@ -37,7 +37,9 @@ export default class InputUrl extends Vue {
         if (response.ok) {
           return response.text();
         } else {
-          throw Error(response.status.toString());
+          throw Error(
+            `request to ${response.url} returned ${response.status} status`
+          );
         }
       })
       .then((data) => {
@@ -49,7 +51,7 @@ export default class InputUrl extends Vue {
       .catch((error) =>
         this.toast.add({
           severity: "error",
-          summary: "Failed to get data",
+          summary: "Failed to analyze data",
           detail: error,
           life: 3000,
         })

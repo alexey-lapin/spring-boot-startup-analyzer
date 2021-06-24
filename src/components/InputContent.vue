@@ -1,7 +1,7 @@
 <template>
   <Textarea v-model="value" rows="10" style="resize: none; width: 100%" />
   <div class="p-mt-2 p-d-flex p-jc-center">
-    <Button label="Analyze text" @click="readContent" />
+    <Button label="Analyze text" icon="bi bi-file-text" @click="readContent" />
   </div>
 </template>
 
@@ -27,18 +27,26 @@ export default class InputUrl extends Vue {
   value = "";
 
   readContent(): void {
+    if (this.value === "") {
+      this.pushToast("content is empty");
+      return;
+    }
     try {
       const parser = new DefaultParser();
       const nodes = parser.parse(this.value);
       this.insertData(nodes);
     } catch (error) {
-      this.toast.add({
-        severity: "error",
-        summary: "Failed to get data",
-        detail: error,
-        life: 3000,
-      });
+      this.pushToast(error);
     }
+  }
+
+  pushToast(message: string): void {
+    this.toast.add({
+      severity: "error",
+      summary: "Failed to analyze data",
+      detail: message,
+      life: 3000,
+    });
   }
 }
 </script>

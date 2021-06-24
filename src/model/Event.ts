@@ -6,6 +6,7 @@ export default interface Event {
   name: string;
   summary: number;
   duration: number;
+  percentage: number;
   startTime: Date;
   endTime: Date;
   tags: Tag[];

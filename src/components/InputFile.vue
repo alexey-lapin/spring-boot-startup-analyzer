@@ -1,7 +1,7 @@
 <template>
   <FileUpload
     mode="basic"
-    chooseLabel="Choose file"
+    chooseLabel="Analyze file"
     accept="application/json"
     :auto="true"
     :custom-upload="true"

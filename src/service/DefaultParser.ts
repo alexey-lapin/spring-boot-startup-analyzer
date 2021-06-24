@@ -12,16 +12,22 @@ export default class DefaultParser implements Parser {
 
     const map = new Map<number, TreeNode>();
 
+    let totalDuration = 0;
+
     const treeNodes = startupData.timeline.events
       .map((item) => this.convertNode(item))
       .map((item) => {
         map.set(item.key, item);
+        if (item.data.parentId == undefined) {
+          totalDuration += item.data.summary;
+        }
         return item;
       });
 
     const events: Event[] = [];
     treeNodes.forEach((item) => {
       events.push(item.data);
+      item.data.percentage = item.data.duration / totalDuration * 100;
       const parentId = item.data.parentId;
       if (parentId !== undefined) {
         const parent = map.get(parentId);
@@ -47,6 +53,7 @@ export default class DefaultParser implements Parser {
         name: item.startupStep.name,
         summary: duration,
         duration: duration,
+        percentage: 0,
         startTime: new Date(item.startTime),
         endTime: new Date(item.endTime),
         tags: item.startupStep.tags,

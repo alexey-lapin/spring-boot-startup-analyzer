@@ -1,22 +1,42 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <div class="container">
+    <TabMenu :model="items" class="p-mb-3" />
+    <router-view />
+    <Toast />
   </div>
-  <router-view />
-  <Toast />
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component";
+import TabMenu from "primevue/tabmenu";
 import Toast from "primevue/toast";
 
 @Options({
   components: {
+    TabMenu,
     Toast,
   },
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  items = [
+    { label: "Analyzer", icon: "pi pi-home", to: "/" },
+    {
+      label: "Usage",
+      icon: "pi pi-book",
+      to: "/usage",
+    },
+    {
+      label: "GitHub",
+      icon: "pi pi-github",
+      url: "https://github.com/alexey-lapin/spring-boot-startup-analyzer",
+    },
+  ];
+}
 </script>
 
-<style></style>
+<style>
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+</style>

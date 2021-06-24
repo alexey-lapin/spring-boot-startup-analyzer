@@ -10,6 +10,7 @@ import "primevue/resources/primevue.min.css";
 import "primevue/resources/themes/saga-blue/theme.css";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 createApp(App)
   .use(ToastService)
