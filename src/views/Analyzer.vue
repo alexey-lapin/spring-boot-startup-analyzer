@@ -3,13 +3,13 @@
     <div class="p-col-6 p-offset-3">
       <InputUrl />
       <Divider align="center" class="p-d-flex p-jc-center" type="solid">
-        <span class="p-tag">OR</span>
+        <p>or</p>
       </Divider>
       <div class="p-d-flex p-jc-center">
         <InputFile />
       </div>
       <Divider align="center" class="p-d-flex p-jc-center" type="solid">
-        <span class="p-tag">OR</span>
+        <p>or</p>
       </Divider>
       <InputContent />
     </div>

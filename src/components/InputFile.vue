@@ -1,7 +1,7 @@
 <template>
   <FileUpload
     mode="basic"
-    chooseLabel="Analyze file"
+    chooseLabel="Analyze File"
     accept="application/json"
     :auto="true"
     :custom-upload="true"
@@ -13,6 +13,7 @@
 import FileUpload from "primevue/fileupload";
 import { Options, Vue } from "vue-class-component";
 import { mapMutations } from "vuex";
+
 import DefaultParser from "@/service/DefaultParser";
 import ParseResult from "@/model/ParseResult";
 

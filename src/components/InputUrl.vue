@@ -1,9 +1,10 @@
 <template>
-  <div class="p-inputgroup">
-    <InputText
-      v-model="url"
-      placeholder="http://localhost:8080/actuator/startup"
-    />
+  <InputText
+    style="width: 100%"
+    v-model="url"
+    placeholder="http://localhost:8080/actuator/startup"
+  />
+  <div class="p-mt-3 p-d-flex p-jc-center">
     <Button label="Analyze URL" icon="bi bi-link" @click="readContent" />
   </div>
 </template>
@@ -14,6 +15,7 @@ import InputText from "primevue/inputtext";
 import { useToast } from "primevue/usetoast";
 import { Options, Vue } from "vue-class-component";
 import { mapMutations } from "vuex";
+
 import DefaultParser from "@/service/DefaultParser";
 import ParseResult from "@/model/ParseResult";
 

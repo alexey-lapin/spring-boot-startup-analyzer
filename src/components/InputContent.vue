@@ -1,7 +1,7 @@
 <template>
   <Textarea v-model="value" rows="10" style="resize: none; width: 100%" />
-  <div class="p-mt-2 p-d-flex p-jc-center">
-    <Button label="Analyze text" icon="bi bi-file-text" @click="readContent" />
+  <div class="p-mt-3 p-d-flex p-jc-center">
+    <Button label="Analyze Text" icon="bi bi-file-text" @click="readContent" />
   </div>
 </template>
 
@@ -11,6 +11,7 @@ import Textarea from "primevue/textarea";
 import { useToast } from "primevue/usetoast";
 import { Options, Vue } from "vue-class-component";
 import { mapMutations } from "vuex";
+
 import DefaultParser from "@/service/DefaultParser";
 import ParseResult from "@/model/ParseResult";
 

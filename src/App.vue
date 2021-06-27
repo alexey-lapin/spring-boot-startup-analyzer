@@ -19,15 +19,15 @@ import Toast from "primevue/toast";
 })
 export default class App extends Vue {
   items = [
-    { label: "Analyzer", icon: "pi pi-home", to: "/" },
+    { label: "Analyzer", icon: "pi bi-search", to: "/" },
     {
       label: "Usage",
-      icon: "pi pi-book",
+      icon: "pi bi-journal-text",
       to: "/usage",
     },
     {
       label: "GitHub",
-      icon: "pi pi-github",
+      icon: "pi bi-github",
       url: "https://github.com/alexey-lapin/spring-boot-startup-analyzer",
     },
   ];
