@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <TabMenu :model="items" class="p-mb-3" />
+    <TabMenu :model="items" class="p-mb-4" />
     <router-view />
     <Toast />
   </div>
