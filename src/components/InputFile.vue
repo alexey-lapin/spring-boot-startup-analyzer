@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import FileUpload from "primevue/fileupload";
+import { useToast } from "primevue/usetoast";
 import { Options, Vue } from "vue-class-component";
 import { mapMutations } from "vuex";
 
@@ -25,6 +26,7 @@ import ParseResult from "@/model/ParseResult";
 })
 export default class InputFile extends Vue {
   insertData!: (data: ParseResult) => void;
+  toast = useToast();
 
   uploader(event: UploaderEvent): void {
     this.readContent(event.files[0]);
@@ -38,11 +40,20 @@ export default class InputFile extends Vue {
         const data = parser.parse(event.target?.result as string);
         this.insertData(data);
       } catch (error) {
-        console.error("failed to parse file content");
+        this.pushToast(error);
       }
     };
     reader.onload = callback;
     reader.readAsText(file);
+  }
+
+  pushToast(message: string): void {
+    this.toast.add({
+      severity: "error",
+      summary: "Failed to analyze data",
+      detail: message,
+      life: 3000,
+    });
   }
 }
 

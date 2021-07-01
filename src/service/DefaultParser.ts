@@ -27,7 +27,7 @@ export default class DefaultParser implements Parser {
     const events: Event[] = [];
     treeNodes.forEach((item) => {
       events.push(item.data);
-      item.data.percentage = item.data.duration / totalDuration * 100;
+      item.data.percentage = (item.data.duration / totalDuration) * 100;
       const parentId = item.data.parentId;
       if (parentId !== undefined) {
         const parent = map.get(parentId);
@@ -38,9 +38,9 @@ export default class DefaultParser implements Parser {
         }
       }
     });
-    const nodes = treeNodes.filter((item) => item.data.parentId === null)
+    const nodes = treeNodes.filter((item) => item.data.parentId === null);
 
-    return {events: events, nodes: nodes};
+    return { events: events, nodes: nodes };
   }
 
   private convertNode(item: EventDto): TreeNode {

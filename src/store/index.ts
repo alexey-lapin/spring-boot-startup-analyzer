@@ -25,7 +25,7 @@ export default createStore({
     },
     isAnalyzed(state: RootState): boolean {
       return state.nodes.length > 0;
-    }
+    },
   },
   modules: {},
 });
