@@ -28,7 +28,7 @@ jobs:
       - name: install and build
         env:
           VUE_APP_PUBLIC_PATH: /spring-boot-startup-analyzer
-          VUE_APP_ANALITYCS: '<script async defer data-website-id="4a6a54a5-17d3-409d-8b28-988104b6a3e0" src="https://umami.alexey-lapin.com/umami.js"></script>'
+          VUE_APP_ANALYTICS: '<script async defer data-website-id="4a6a54a5-17d3-409d-8b28-988104b6a3e0" src="https://umami.alexey-lapin.com/umami.js"></script>'
         run: |
           npm install
           npm run build
@@ -62,7 +62,5 @@ jobs:
       - name: Build and push frontend
         uses: docker/build-push-action@v2
         with:
-          context: frontend
-          file: frontend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/spring-boot-startup-analyzer:latest,${{ secrets.DOCKER_HUB_USERNAME }}/spring-boot-startup-analyzer:${{ env.TAG }}
