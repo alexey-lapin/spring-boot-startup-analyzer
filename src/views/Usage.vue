@@ -16,16 +16,6 @@
   </Panel>
   <Panel header="To Analyze URL" class="p-mb-2">
     Configure your application to handle requests from this web page (CORS)
-    <CodeBlock :code="codeProperties" language="properties" class="p-mt-2" />
-    Configure security (if it used in your application) according to
-    <a
-      href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.security"
-      >docs</a
-    >
-    <CodeBlock :code="codeJavaApp" language="java" class="p-mt-2" />
-  </Panel>
-  <Panel header="To Analyze URL" class="p-mb-2">
-    Configure your application to handle requests from this web page (CORS)
     <CodeBlock
       :code="codeProperties"
       language="properties"
