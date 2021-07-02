@@ -27,7 +27,8 @@ jobs:
       
       - name: install and build
         env:
-          VUE_APP_PUBLIC_PATH: /spring-boot-startup-analyzer
+          VUE_APP_PUBLIC_PATH: /spring-boot-startup-analyzer/
+          VUE_APP_HISTORY: hash
           VUE_APP_ANALYTICS: '<script async defer data-website-id="4a6a54a5-17d3-409d-8b28-988104b6a3e0" src="https://umami.alexey-lapin.com/umami.js"></script>'
         run: |
           npm install
@@ -59,7 +60,7 @@ jobs:
       - name: Set tag
         run: echo "TAG=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
 
-      - name: Build and push frontend
+      - name: Build and push
         uses: docker/build-push-action@v2
         with:
           push: true
