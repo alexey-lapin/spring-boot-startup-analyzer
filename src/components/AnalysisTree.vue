@@ -1,6 +1,5 @@
 <template>
   <TreeTable
-    v-if="isAnalyzed"
     :value="nodes"
     :expandedKeys="expandedKeys"
     class="p-treetable-sm"
@@ -94,7 +93,7 @@ import TreeNode from "@/model/TreeNode";
     TreeTable,
   },
   computed: {
-    ...mapGetters(["events", "nodes", "isAnalyzed"]),
+    ...mapGetters(["events", "nodes"]),
   },
 })
 export default class AnalysisTree extends Vue {

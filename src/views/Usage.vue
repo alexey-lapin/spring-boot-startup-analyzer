@@ -21,7 +21,7 @@
       language="properties"
       class="p-mt-2 p-mb-2"
     />
-    Configure security (if it used in your application) according to
+    Configure security (if is it used in your application) according to
     <a
       href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.security"
       >docs</a

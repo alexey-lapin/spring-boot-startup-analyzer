@@ -16,9 +16,13 @@
   </div>
 
   <div v-if="isAnalyzed">
+    <span class="p-buttonset">
+      <Button :label="appName" class="p-button-text" />
+      <Button icon="pi pi-trash" class="p-button-text" @click="clearData" />
+    </span>
     <Button
       label="Tree"
-      class="p-mr-2"
+      class="p-ml-2 p-mr-1"
       :class="getTabButtonClass('AnalysisTree')"
       @click="switchTab('AnalysisTree')"
     />
@@ -44,7 +48,7 @@ import ScrollTop from "primevue/scrolltop";
 import TabPanel from "primevue/tabpanel";
 import TabView from "primevue/tabview";
 import { Options, Vue } from "vue-class-component";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 import AnalysisSummary from "@/components/AnalysisSummary.vue";
 import AnalysisTable from "@/components/AnalysisTable.vue";
@@ -68,11 +72,13 @@ import InputUrl from "@/components/InputUrl.vue";
     TabView,
   },
   computed: {
-    ...mapGetters(["isAnalyzed"]),
+    ...mapGetters(["isAnalyzed", "appName"]),
   },
+  methods: mapMutations(["clearData"]),
 })
 export default class Analyzer extends Vue {
   isAnalyzed!: boolean;
+  appName!: string;
 
   tab = "AnalysisTree";
 

@@ -14,6 +14,10 @@ export default createStore({
       state.events = data.events;
       state.nodes = data.nodes;
     },
+    clearData(state: RootState) {
+      state.events = [];
+      state.nodes = [];
+    }
   },
   actions: {},
   getters: {
@@ -25,6 +29,12 @@ export default createStore({
     },
     isAnalyzed(state: RootState): boolean {
       return state.nodes.length > 0;
+    },
+    appName(state: RootState): string | undefined {
+      if (state.nodes.length > 0) {
+        return state.nodes.find((item) => item.key === 0)?.data.tags[0]?.value;
+      }
+      return "";
     },
   },
   modules: {},
