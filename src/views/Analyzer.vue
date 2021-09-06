@@ -18,7 +18,11 @@
   <div v-if="isAnalyzed">
     <span class="p-buttonset">
       <Button :label="appName" class="p-button-text" />
-      <Button icon="pi pi-trash" class="p-button-text" @click="clearData" />
+      <Button
+        icon="pi pi-trash"
+        class="p-button-text p-button-danger"
+        @click="clearData"
+      />
     </span>
     <Button
       label="Tree"

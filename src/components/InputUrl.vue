@@ -1,9 +1,12 @@
 <template>
-  <InputText
-    style="width: 100%"
-    v-model="url"
-    placeholder="http://localhost:8080/actuator/startup"
-  />
+  <div class="p-d-flex">
+    <Dropdown v-model="method" :options="['GET', 'POST']" class="p-mr-2" />
+    <InputText
+      style="width: 100%"
+      v-model="url"
+      placeholder="actuator endpoint url"
+    />
+  </div>
   <div class="p-mt-3 p-d-flex p-jc-center">
     <Button label="Analyze URL" icon="bi bi-link" @click="readContent" />
   </div>
@@ -11,6 +14,7 @@
 
 <script lang="ts">
 import Button from "primevue/button";
+import Dropdown from "primevue/dropdown";
 import InputText from "primevue/inputtext";
 import { useToast } from "primevue/usetoast";
 import { Options, Vue } from "vue-class-component";
@@ -22,6 +26,7 @@ import ParseResult from "@/model/ParseResult";
 @Options({
   components: {
     Button,
+    Dropdown,
     InputText,
   },
   methods: mapMutations(["insertData"]),
@@ -29,11 +34,12 @@ import ParseResult from "@/model/ParseResult";
 export default class InputUrl extends Vue {
   insertData!: (data: ParseResult) => void;
   toast = useToast();
-  url = "";
+  method = "GET";
+  url = "http://localhost:8080/actuator/startup";
 
   readContent(): void {
     fetch(this.url, {
-      method: "POST",
+      method: this.method,
     })
       .then((response) => {
         if (response.ok) {
