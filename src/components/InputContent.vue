@@ -1,6 +1,6 @@
 <template>
   <Textarea v-model="value" rows="10" style="resize: none; width: 100%" />
-  <div class="p-mt-3 p-d-flex p-jc-center">
+  <div class="mt-3 flex justify-content-center">
     <Button label="Analyze Text" icon="bi bi-file-text" @click="readContent" />
   </div>
 </template>
@@ -37,7 +37,13 @@ export default class InputUrl extends Vue {
       const nodes = parser.parse(this.value);
       this.insertData(nodes);
     } catch (error) {
-      this.pushToast(error);
+      let message;
+      if (error instanceof Error) {
+        message = error.message;
+      } else {
+        message = String(error);
+      }
+      this.pushToast(message);
     }
   }
 

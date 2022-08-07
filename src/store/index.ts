@@ -17,7 +17,7 @@ export default createStore({
     clearData(state: RootState) {
       state.events = [];
       state.nodes = [];
-    }
+    },
   },
   actions: {},
   getters: {

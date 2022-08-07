@@ -1,13 +1,13 @@
 <template>
-  <div class="p-d-flex">
-    <Dropdown v-model="method" :options="['GET', 'POST']" class="p-mr-2" />
+  <div class="flex">
+    <Dropdown v-model="method" :options="['GET', 'POST']" class="mr-2" />
     <InputText
       style="width: 100%"
       v-model="url"
       placeholder="actuator endpoint url"
     />
   </div>
-  <div class="p-mt-3 p-d-flex p-jc-center">
+  <div class="mt-3 flex justify-content-center">
     <Button label="Analyze URL" icon="bi bi-link" @click="readContent" />
   </div>
 </template>

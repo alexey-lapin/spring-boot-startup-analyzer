@@ -2,7 +2,6 @@
   <DataTable
     v-if="row.data.tags.length > 0"
     :value="row.data.tags"
-    class="p-datatable-sm"
     showGridlines
   >
     <Column headerStyle="display: none" bodyClass="tags-cell-body">

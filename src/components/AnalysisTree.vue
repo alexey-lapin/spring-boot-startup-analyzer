@@ -7,13 +7,13 @@
     showGridlines
   >
     <template #header>
-      <div class="p-d-flex">
+      <div class="flex">
         <MultiSelect
           v-model="selectedColumns"
           :options="columns"
           optionLabel="header"
           placeholder="Select Columns"
-          class="p-mr-auto"
+          class="mr-auto"
         />
         <Button
           type="button"
@@ -21,7 +21,7 @@
           label="Expand All"
           @click="expandAll"
           v-tooltip.top="'it may take some time'"
-          class="p-button-outlined p-mr-1"
+          class="p-button-outlined mr-1"
         />
         <Button
           type="button"

@@ -36,3 +36,9 @@ export default class AnalysisTable extends Vue {
   events!: Event[];
 }
 </script>
+
+<style>
+.p-datatable table {
+  width: 100%;
+}
+</style>

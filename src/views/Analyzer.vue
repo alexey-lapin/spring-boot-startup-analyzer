@@ -1,14 +1,14 @@
 <template>
-  <div v-if="!isAnalyzed" class="p-grid">
-    <div class="p-col-6 p-offset-3">
+  <div v-if="!isAnalyzed" class="grid">
+    <div class="col-6 col-offset-3">
       <InputUrl />
-      <Divider align="center" class="p-d-flex p-jc-center" type="solid">
+      <Divider align="center" class="flex justify-content-center" type="solid">
         <p>or</p>
       </Divider>
-      <div class="p-d-flex p-jc-center">
+      <div class="flex justify-content-center">
         <InputFile />
       </div>
-      <Divider align="center" class="p-d-flex p-jc-center" type="solid">
+      <Divider align="center" class="flex justify-content-center" type="solid">
         <p>or</p>
       </Divider>
       <InputContent />
@@ -26,7 +26,7 @@
     </span>
     <Button
       label="Tree"
-      class="p-ml-2 p-mr-1"
+      class="ml-2 mr-1"
       :class="getTabButtonClass('AnalysisTree')"
       @click="switchTab('AnalysisTree')"
     />
@@ -35,7 +35,7 @@
       :class="getTabButtonClass('AnalysisTable')"
       @click="switchTab('AnalysisTable')"
     />
-    <div class="p-mt-2">
+    <div class="mt-2">
       <KeepAlive>
         <Component :is="tab" />
       </KeepAlive>

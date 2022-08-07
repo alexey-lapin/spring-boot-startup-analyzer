@@ -40,7 +40,13 @@ export default class InputFile extends Vue {
         const data = parser.parse(event.target?.result as string);
         this.insertData(data);
       } catch (error) {
-        this.pushToast(error);
+        let message;
+        if (error instanceof Error) {
+          message = error.message;
+        } else {
+          message = String(error);
+        }
+        this.pushToast(message);
       }
     };
     reader.onload = callback;

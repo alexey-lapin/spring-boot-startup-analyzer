@@ -10,25 +10,21 @@
       >docs</a
     ></Message
   >
-  <Panel header="Spring configuration" class="p-mb-2">
+  <Panel header="Spring configuration" class="mb-2">
     Configure your application to collect startup events:
-    <CodeBlock :code="codeJavaApp" language="java" class="p-mt-2" />
+    <CodeBlock :code="codeJavaApp" language="java" class="mt-2" />
   </Panel>
-  <Panel header="To Analyze URL" class="p-mb-2">
+  <Panel header="To Analyze URL" class="mb-2">
     Configure your application to handle requests from this web page (CORS)
-    <CodeBlock
-      :code="codeProperties"
-      language="properties"
-      class="p-mt-2 p-mb-2"
-    />
+    <CodeBlock :code="codeProperties" language="properties" class="mt-2 mb-2" />
     Configure security (if is it used in your application) according to
     <a
       href="https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.security"
       >docs</a
     >
-    <CodeBlock :code="codeJavaSecurity" language="java" class="p-mt-2" />
+    <CodeBlock :code="codeJavaSecurity" language="java" class="mt-2" />
   </Panel>
-  <Panel header="To Analyze File" class="p-mb-2">
+  <Panel header="To Analyze File" class="mb-2">
     Save json response from <b>/actuator/startup</b> endpoint to file and use it
     for analysis
   </Panel>
