@@ -9,7 +9,7 @@ import Usage from "@/views/UsageView.vue";
 
 const router = createRouter({
   history:
-    import.meta.env.VUE_APP_HISTORY === "hash"
+    import.meta.env.VITE_APP_HISTORY === "hash"
       ? createWebHashHistory(import.meta.env.BASE_URL)
       : createWebHistory(import.meta.env.BASE_URL),
   routes: [

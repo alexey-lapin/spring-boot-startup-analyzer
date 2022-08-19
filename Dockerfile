@@ -2,7 +2,7 @@
 FROM node:lts-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
-ENV VUE_APP_PUBLIC_PATH <PUBLIC_PATH_REPLACE>
+ENV VITE_APP_PUBLIC_PATH <PUBLIC_PATH_REPLACE>
 RUN npm install
 COPY . .
 RUN npm run build
