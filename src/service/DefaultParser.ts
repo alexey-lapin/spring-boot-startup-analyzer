@@ -1,16 +1,16 @@
 import moment from "moment";
-import Event from "@/model/Event";
-import EventDto from "@/model/EventDto";
-import StartupDto from "@/model/StartupDto";
-import TreeNode from "@/model/TreeNode";
-import Parser from "./Parser";
-import ParseResult from "@/model/ParseResult";
+import type Event from "@/model/Event";
+import type EventDto from "@/model/dto/EventDto";
+import type StartupDto from "@/model/dto/StartupDto";
+import type DataNode from "@/model/DataNode";
+import type ParseResult from "@/model/ParseResult";
+import type Parser from "@/service/Parser";
 
 export default class DefaultParser implements Parser {
   parse(payloadString: string): ParseResult {
     const startupData = JSON.parse(payloadString) as StartupDto;
 
-    const map = new Map<number, TreeNode>();
+    const map = new Map<string, DataNode>();
 
     let totalDuration = 0;
 
@@ -18,7 +18,7 @@ export default class DefaultParser implements Parser {
       .map((item) => this.convertNode(item))
       .map((item) => {
         map.set(item.key, item);
-        if (item.data.parentId == undefined) {
+        if (item.data.parentId === null) {
           totalDuration += item.data.summary;
         }
         return item;
@@ -27,10 +27,12 @@ export default class DefaultParser implements Parser {
     const events: Event[] = [];
     treeNodes.forEach((item) => {
       events.push(item.data);
-      item.data.percentage = (item.data.duration / totalDuration) * 100;
+      item.data.percentage = Number(
+        ((item.data.duration / totalDuration) * 100).toFixed(1)
+      );
       const parentId = item.data.parentId;
-      if (parentId !== undefined) {
-        const parent = map.get(parentId);
+      if (parentId !== null) {
+        const parent = map.get(String(parentId));
         if (parent !== undefined) {
           parent.children.push(item);
           parent.data.duration -= item.data.summary;
@@ -40,13 +42,13 @@ export default class DefaultParser implements Parser {
     });
     const nodes = treeNodes.filter((item) => item.data.parentId === null);
 
-    return { events: events, nodes: nodes };
+    return { totalDuration: totalDuration, events: events, nodes: nodes };
   }
 
-  private convertNode(item: EventDto): TreeNode {
+  private convertNode(item: EventDto): DataNode {
     const duration = moment.duration(item.duration).asMilliseconds();
     return {
-      key: item.startupStep.id,
+      key: String(item.startupStep.id),
       data: {
         id: item.startupStep.id,
         parentId: item.startupStep.parentId,

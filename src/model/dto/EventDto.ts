@@ -1,4 +1,4 @@
-import StartupStepDto from "./StartupStepDto";
+import type StartupStepDto from "./StartupStepDto";
 
 export default interface EventDto {
   startTime: string;

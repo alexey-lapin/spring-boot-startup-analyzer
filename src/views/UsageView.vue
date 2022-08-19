@@ -1,6 +1,6 @@
 <template>
   <Message :closable="false"
-    >Spring Boot Actiator <i>startup</i> endpoint is available since
+    >Spring Boot Actuator <i>startup</i> endpoint is available since
     <a href="https://spring.io/blog/2020/11/12/spring-boot-2-4-0-available-now"
       >2.4.0</a
     >
@@ -34,23 +34,14 @@
   </Panel>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Message from "primevue/message";
 import Panel from "primevue/panel";
 import dedent from "ts-dedent";
-import { Options, Vue } from "vue-class-component";
 
 import CodeBlock from "@/components/CodeBlock.vue";
 
-@Options({
-  components: {
-    CodeBlock,
-    Message,
-    Panel,
-  },
-})
-export default class Analyzer extends Vue {
-  codeJavaApp = dedent(`
+const codeJavaApp = dedent(`
     @SpringBootApplication
     public class App {
         public static void main(String[] args) {
@@ -60,7 +51,8 @@ export default class Analyzer extends Vue {
         }
     }
   `);
-  codeJavaSecurity = dedent(`
+
+const codeJavaSecurity = dedent(`
     @Configuration(proxyBeanMethods = false)
     public class ActuatorSecurityConfiguration {
         @Bean
@@ -71,10 +63,55 @@ export default class Analyzer extends Vue {
         }
     }
   `);
-  codeProperties = dedent(`
+
+const codeProperties = dedent(`
     management.endpoints.web.exposure.include=startup
     management.endpoints.web.cors.allowed-origins=https://alexey-lapin.github.io
     management.endpoints.web.cors.allowed-methods=GET,POST
   `);
-}
 </script>
+
+<!--<script lang="ts">-->
+<!--import Message from "primevue/message";-->
+<!--import Panel from "primevue/panel";-->
+<!--import dedent from "ts-dedent";-->
+<!--import { Options, Vue } from "vue-class-component";-->
+
+<!--import CodeBlock from "@/components/CodeBlock.vue";-->
+
+<!--@Options({-->
+<!--  components: {-->
+<!--    CodeBlock,-->
+<!--    Message,-->
+<!--    Panel,-->
+<!--  },-->
+<!--})-->
+<!--export default class Analyzer extends Vue {-->
+<!--  codeJavaApp = dedent(`-->
+<!--    @SpringBootApplication-->
+<!--    public class App {-->
+<!--        public static void main(String[] args) {-->
+<!--            SpringApplication application = new SpringApplication(App.class);-->
+<!--            application.setApplicationStartup(new BufferingApplicationStartup(1000));-->
+<!--            application.run(args);-->
+<!--        }-->
+<!--    }-->
+<!--  `);-->
+<!--  codeJavaSecurity = dedent(`-->
+<!--    @Configuration(proxyBeanMethods = false)-->
+<!--    public class ActuatorSecurityConfiguration {-->
+<!--        @Bean-->
+<!--        public SecurityFilterChain actuatorSecurityFilterChain(HttpSecurity http) throws Exception {-->
+<!--            http.requestMatcher(EndpointRequest.toAnyEndpoint())-->
+<!--                    .authorizeRequests((requests) -> requests.anyRequest().permitAll());-->
+<!--            return http.build();-->
+<!--        }-->
+<!--    }-->
+<!--  `);-->
+<!--  codeProperties = dedent(`-->
+<!--    management.endpoints.web.exposure.include=startup-->
+<!--    management.endpoints.web.cors.allowed-origins=https://alexey-lapin.github.io-->
+<!--    management.endpoints.web.cors.allowed-methods=GET,POST-->
+<!--  `);-->
+<!--}-->
+<!--</script>-->

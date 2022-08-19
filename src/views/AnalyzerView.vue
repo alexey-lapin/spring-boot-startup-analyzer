@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isAnalyzed" class="grid">
+  <div v-if="!eventsStore.isAnalyzed" class="grid">
     <div class="col-6 col-offset-3">
       <InputUrl />
       <Divider align="center" class="flex justify-content-center" type="solid">
@@ -15,13 +15,13 @@
     </div>
   </div>
 
-  <div v-if="isAnalyzed">
+  <div v-if="eventsStore.isAnalyzed">
     <span class="p-buttonset">
-      <Button :label="appName" class="p-button-text" />
+      <Button :label="eventsStore.appName" class="p-button-text" />
       <Button
         icon="pi pi-trash"
         class="p-button-text p-button-danger"
-        @click="clearData"
+        @click="eventsStore.clearData()"
       />
     </span>
     <Button
@@ -37,7 +37,7 @@
     />
     <div class="mt-2">
       <KeepAlive>
-        <Component :is="tab" />
+        <Component :is="activeTabComponent" />
       </KeepAlive>
     </div>
   </div>
@@ -45,53 +45,39 @@
   <ScrollTop />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Button from "primevue/button";
 import Divider from "primevue/divider";
 import ScrollTop from "primevue/scrolltop";
-import TabPanel from "primevue/tabpanel";
-import TabView from "primevue/tabview";
-import { Options, Vue } from "vue-class-component";
-import { mapGetters, mapMutations } from "vuex";
-
-import AnalysisSummary from "@/components/AnalysisSummary.vue";
 import AnalysisTable from "@/components/AnalysisTable.vue";
 import AnalysisTree from "@/components/AnalysisTree.vue";
+import AnalysisSummary from "@/components/AnalysisSummary.vue";
 import InputContent from "@/components/InputContent.vue";
 import InputFile from "@/components/InputFile.vue";
 import InputUrl from "@/components/InputUrl.vue";
+import { useEventsStore } from "@/store/EventsStore";
+import { markRaw, ref } from "vue";
 
-@Options({
-  components: {
-    AnalysisSummary,
-    AnalysisTable,
-    AnalysisTree,
-    Button,
-    Divider,
-    InputContent,
-    InputFile,
-    InputUrl,
-    ScrollTop,
-    TabPanel,
-    TabView,
-  },
-  computed: {
-    ...mapGetters(["isAnalyzed", "appName"]),
-  },
-  methods: mapMutations(["clearData"]),
-})
-export default class Analyzer extends Vue {
-  isAnalyzed!: boolean;
-  appName!: string;
+const eventsStore = useEventsStore();
 
-  tab = "AnalysisTree";
+const activeTabComponent = ref(markRaw(AnalysisTree));
+const activeTabName = ref("AnalysisTree");
 
-  switchTab(name: string): void {
-    this.tab = name;
-  }
+const lookup = {
+  AnalysisSummary,
+  AnalysisTree,
+  AnalysisTable,
+};
 
-  getTabButtonClass(name: string): string {
-    return name === this.tab ? "" : "p-button-outlined";
-  }
+type LookupKey = keyof typeof lookup;
+
+function switchTab(name: string): void {
+  const lookupElement = lookup[name as LookupKey];
+  activeTabComponent.value = markRaw(lookupElement);
+  activeTabName.value = name;
+}
+
+function getTabButtonClass(name: string): string {
+  return name === activeTabName.value ? "" : "p-button-outlined";
 }
 </script>

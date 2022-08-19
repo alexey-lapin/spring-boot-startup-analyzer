@@ -1,4 +1,4 @@
-import EventDto from "./EventDto";
+import type EventDto from "./EventDto";
 
 export default interface TimelineDto {
   startTime: string;

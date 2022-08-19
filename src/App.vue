@@ -6,32 +6,23 @@
   </div>
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component";
+<script setup lang="ts">
 import TabMenu from "primevue/tabmenu";
 import Toast from "primevue/toast";
 
-@Options({
-  components: {
-    TabMenu,
-    Toast,
+const items = [
+  { label: "Analyzer", icon: "pi bi-search", to: "/" },
+  {
+    label: "Usage",
+    icon: "pi bi-journal-text",
+    to: "/usage",
   },
-})
-export default class App extends Vue {
-  items = [
-    { label: "Analyzer", icon: "pi bi-search", to: "/" },
-    {
-      label: "Usage",
-      icon: "pi bi-journal-text",
-      to: "/usage",
-    },
-    {
-      label: "GitHub",
-      icon: "pi bi-github",
-      url: "https://github.com/alexey-lapin/spring-boot-startup-analyzer",
-    },
-  ];
-}
+  {
+    label: "GitHub",
+    icon: "pi bi-github",
+    url: "https://github.com/alexey-lapin/spring-boot-startup-analyzer",
+  },
+];
 </script>
 
 <style>

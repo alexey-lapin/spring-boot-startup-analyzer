@@ -1,10 +1,11 @@
 import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
+import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
 import ToastService from "primevue/toastservice";
 import Tooltip from "primevue/tooltip";
+
+import App from "./App.vue";
+import router from "./router";
 
 import "primevue/resources/primevue.min.css";
 import "primevue/resources/themes/saga-blue/theme.css";
@@ -14,7 +15,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 createApp(App)
   .use(ToastService)
-  .use(store)
+  .use(createPinia())
   .use(router)
   .use(PrimeVue, { ripple: true })
   .directive("tooltip", Tooltip)
