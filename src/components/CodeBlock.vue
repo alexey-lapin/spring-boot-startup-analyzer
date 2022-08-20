@@ -8,9 +8,8 @@
   ></prism-editor>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { PrismEditor } from "vue-prism-editor";
-import { Options, Vue } from "vue-class-component";
 
 import { highlight, languages } from "prismjs";
 import "prismjs/components/prism-java";
@@ -19,17 +18,14 @@ import "prismjs/components/prism-properties";
 import "vue-prism-editor/dist/prismeditor.min.css";
 import "prismjs/themes/prism-tomorrow.css";
 
-@Options({
-  components: {
-    PrismEditor,
-  },
-  props: ["code", "language"],
-})
-export default class CodeBlock extends Vue {
-  language!: string;
-  highlighter(code: string): string {
-    return highlight(code, languages[this.language], this.language);
-  }
+const props = defineProps({
+  code: String,
+  language: String,
+});
+
+function highlighter(code: string): string {
+  const language = props.language as string;
+  return highlight(code, languages[language], language);
 }
 </script>
 

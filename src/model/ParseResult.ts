@@ -1,7 +1,8 @@
-import Event from "@/model/Event";
-import TreeNode from "@/model/TreeNode";
+import type Event from "@/model/Event";
+import type DataNode from "@/model/DataNode";
 
 export default interface ParseResult {
-    events: Event[],
-    nodes: TreeNode[],
+  totalDuration: number;
+  events: Event[];
+  nodes: DataNode[];
 }

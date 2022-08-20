@@ -1,5 +1,5 @@
 <template>
-  <DataTable :value="events" :autoLayout="true">
+  <DataTable :value="eventsStore.events" :autoLayout="true">
     <Column field="id" header="Id" :sortable="true"></Column>
     <Column field="parentId" header="ParentId" :sortable="true"></Column>
     <Column field="name" header="Name" :sortable="true"></Column>
@@ -13,26 +13,18 @@
   </DataTable>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Column from "primevue/column";
 import DataTable from "primevue/datatable";
-import { Options, Vue } from "vue-class-component";
-import { mapGetters } from "vuex";
 
-import Event from "@/model/Event";
 import TagsTable from "@/components/TagsTable.vue";
+import { useEventsStore } from "@/store/EventsStore";
 
-@Options({
-  components: {
-    Column,
-    DataTable,
-    TagsTable,
-  },
-  computed: {
-    ...mapGetters(["events"]),
-  },
-})
-export default class AnalysisTable extends Vue {
-  events!: Event[];
-}
+const eventsStore = useEventsStore();
 </script>
+
+<style>
+.p-datatable table {
+  width: 100%;
+}
+</style>

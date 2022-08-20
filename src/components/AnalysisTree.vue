@@ -1,19 +1,19 @@
 <template>
   <TreeTable
-    :value="nodes"
+    :value="eventsStore.nodes"
     :expandedKeys="expandedKeys"
     class="p-treetable-sm"
     :resizableColumns="true"
     showGridlines
   >
     <template #header>
-      <div class="p-d-flex">
+      <div class="flex">
         <MultiSelect
           v-model="selectedColumns"
           :options="columns"
           optionLabel="header"
           placeholder="Select Columns"
-          class="p-mr-auto"
+          class="mr-auto"
         />
         <Button
           type="button"
@@ -21,7 +21,7 @@
           label="Expand All"
           @click="expandAll"
           v-tooltip.top="'it may take some time'"
-          class="p-button-outlined p-mr-1"
+          class="p-button-outlined mr-1"
         />
         <Button
           type="button"
@@ -70,64 +70,43 @@
   </TreeTable>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Button from "primevue/button";
 import Column from "primevue/column";
-import DataTable from "primevue/datatable";
 import MultiSelect from "primevue/multiselect";
 import TreeTable from "primevue/treetable";
-import { Options, Vue } from "vue-class-component";
-import { mapGetters } from "vuex";
+import { ref } from "vue";
 
 import TagsTable from "@/components/TagsTable.vue";
-import Event from "@/model/Event";
-import TreeNode from "@/model/TreeNode";
+import { useEventsStore } from "@/store/EventsStore";
 
-@Options({
-  components: {
-    Button,
-    Column,
-    DataTable,
-    MultiSelect,
-    TagsTable,
-    TreeTable,
-  },
-  computed: {
-    ...mapGetters(["events", "nodes"]),
-  },
-})
-export default class AnalysisTree extends Vue {
-  events!: Event[];
-  nodes!: TreeNode[];
-  isAnalyzed!: boolean;
+const eventsStore = useEventsStore();
 
-  expandedKeys: Record<string, boolean> = {};
+const columns: ColumnDescriptor[] = [
+  { header: "ParentId" },
+  { header: "Step" },
+  { header: "Summary" },
+  { header: "Duration" },
+  { header: "Tags" },
+];
 
-  columns: ColumnDescriptor[] = [
-    { header: "ParentId" },
-    { header: "Step" },
-    { header: "Summary" },
-    { header: "Duration" },
-    { header: "Tags" },
-  ];
+const expandedKeys = ref({} as Record<string, boolean>);
+const selectedColumns = ref(
+  columns.filter((item: ColumnDescriptor) => item.header !== "ParentId")
+);
 
-  selectedColumns: ColumnDescriptor[] = this.columns.filter(
-    (item: ColumnDescriptor) => item.header !== "ParentId"
+function isColumnSelected(name: string): boolean {
+  return (
+    selectedColumns.value.find((item) => item.header === name) !== undefined
   );
+}
 
-  isColumnSelected(name: string): boolean {
-    return (
-      this.selectedColumns.find((item) => item.header === name) !== undefined
-    );
-  }
+function expandAll(): void {
+  eventsStore.events.forEach((item) => (expandedKeys.value[item.id] = true));
+}
 
-  expandAll(): void {
-    this.events.forEach((item) => (this.expandedKeys[item.id] = true));
-  }
-
-  collapseAll(): void {
-    this.expandedKeys = {};
-  }
+function collapseAll(): void {
+  expandedKeys.value = {};
 }
 
 interface ColumnDescriptor {

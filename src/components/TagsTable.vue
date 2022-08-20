@@ -13,21 +13,28 @@
   </DataTable>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Column from "primevue/column";
 import DataTable from "primevue/datatable";
-import { Options, Vue } from "vue-class-component";
-// import { mapGetters } from "vuex";
 
-@Options({
-  components: {
-    Column,
-    DataTable,
-  },
-  props: ["row"],
-})
-export default class TagsTable extends Vue {}
+defineProps(["row"]);
 </script>
+
+<!--<script lang="ts">-->
+<!--import Column from "primevue/column";-->
+<!--import DataTable from "primevue/datatable";-->
+<!--import { Options, Vue } from "vue-class-component";-->
+<!--// import { mapGetters } from "vuex";-->
+
+<!--@Options({-->
+<!--  components: {-->
+<!--    Column,-->
+<!--    DataTable,-->
+<!--  },-->
+<!--  props: ["row"],-->
+<!--})-->
+<!--export default class TagsTable extends Vue {}-->
+<!--</script>-->
 
 <style>
 .tags-cell-body {

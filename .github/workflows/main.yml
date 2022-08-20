@@ -16,7 +16,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - uses: actions/cache@v2
         with:
@@ -27,9 +29,9 @@ jobs:
       
       - name: install and build
         env:
-          VUE_APP_PUBLIC_PATH: /spring-boot-startup-analyzer/
-          VUE_APP_HISTORY: hash
-          VUE_APP_ANALYTICS: '<script async defer data-website-id="4a6a54a5-17d3-409d-8b28-988104b6a3e0" src="https://umami.alexey-lapin.com/umami.js"></script>'
+          VITE_APP_PUBLIC_PATH: /spring-boot-startup-analyzer
+          VITE_APP_HISTORY: hash
+          VITE_APP_ANALYTICS: '<script async defer data-website-id="4a6a54a5-17d3-409d-8b28-988104b6a3e0" src="https://umami.alexey-lapin.com/umami.js"></script>'
         run: |
           npm install
           npm run build
