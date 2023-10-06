@@ -1,4 +1,4 @@
 export default interface TagDto {
-  key: string;
-  value: string;
+  key: string
+  value: string
 }
