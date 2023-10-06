@@ -1,6 +1,6 @@
 <template>
-  <div v-if="!eventsStore.isAnalyzed" class="grid">
-    <div class="col-6 col-offset-3">
+  <div v-if="!eventsStore.isAnalyzed" class="flex justify-content-center">
+    <div class="w-6">
       <InputUrl />
       <Divider align="center" class="flex justify-content-center" type="solid">
         <p>or</p>

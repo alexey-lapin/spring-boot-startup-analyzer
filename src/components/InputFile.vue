@@ -10,49 +10,49 @@
 </template>
 
 <script setup lang="ts">
-import FileUpload from "primevue/fileupload";
-import { useToast } from "primevue/usetoast";
+import FileUpload from 'primevue/fileupload'
+import { useToast } from 'primevue/usetoast'
 
-import DefaultParser from "@/service/DefaultParser";
-import { useEventsStore } from "@/store/EventsStore";
+import DefaultParser from '@/service/DefaultParser'
+import { useEventsStore } from '@/store/EventsStore'
 
-const toast = useToast();
-const eventsStore = useEventsStore();
-const parser = new DefaultParser();
+const toast = useToast()
+const eventsStore = useEventsStore()
+const parser = new DefaultParser()
 
 function uploader(event: UploaderEvent): void {
-  readContent(event.files[0]);
+  readContent(event.files[0])
 }
 
 function readContent(file: File): void {
-  const reader: FileReader = new FileReader();
+  const reader: FileReader = new FileReader()
   reader.onload = (event: ProgressEvent<FileReader>) => {
     try {
-      const data = parser.parse(event.target?.result as string);
-      eventsStore.insertData(data);
+      const data = parser.parse(event.target?.result as string)
+      eventsStore.insertData(data)
     } catch (error) {
-      let message;
+      let message
       if (error instanceof Error) {
-        message = error.message;
+        message = error.message
       } else {
-        message = String(error);
+        message = String(error)
       }
-      pushToast(message);
+      pushToast(message)
     }
-  };
-  reader.readAsText(file);
+  }
+  reader.readAsText(file)
 }
 
 function pushToast(message: string): void {
   toast.add({
-    severity: "error",
-    summary: "Failed to analyze data",
+    severity: 'error',
+    summary: 'Failed to analyze data',
     detail: message,
-    life: 3000,
-  });
+    life: 3000
+  })
 }
 
 interface UploaderEvent {
-  files: File[];
+  files: File[]
 }
 </script>
