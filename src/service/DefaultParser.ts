@@ -51,7 +51,7 @@ export default class DefaultParser implements Parser {
       key: String(item.startupStep.id),
       data: {
         id: item.startupStep.id,
-        parentId: item.startupStep.parentId,
+        parentId: item.startupStep.parentId ?? null,
         name: item.startupStep.name,
         summary: duration,
         duration: duration,
