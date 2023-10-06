@@ -11,15 +11,15 @@ import TabMenu from "primevue/tabmenu";
 import Toast from "primevue/toast";
 
 const items = [
-  { label: "Analyzer", icon: "pi bi-search", to: "/" },
+  { label: "Analyzer", icon: "pi pi-search", to: "/" },
   {
     label: "Usage",
-    icon: "pi bi-journal-text",
+    icon: "pi pi-book",
     to: "/usage",
   },
   {
     label: "GitHub",
-    icon: "pi bi-github",
+    icon: "pi pi-github",
     url: "https://github.com/alexey-lapin/spring-boot-startup-analyzer",
   },
 ];

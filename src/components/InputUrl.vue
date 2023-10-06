@@ -8,7 +8,7 @@
     />
   </div>
   <div class="mt-3 flex justify-content-center">
-    <Button label="Analyze URL" icon="bi bi-link" @click="readContent" />
+    <Button label="Analyze URL" icon="pi pi-link" @click="readContent" />
   </div>
 </template>
 

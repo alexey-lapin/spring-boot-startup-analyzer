@@ -1,7 +1,7 @@
 <template>
   <Textarea v-model="text" rows="10" style="resize: none; width: 100%" />
   <div class="mt-3 flex justify-content-center">
-    <Button label="Analyze Text" icon="bi bi-file-text" @click="readContent" />
+    <Button label="Analyze Text" icon="pi pi-file" @click="readContent" />
   </div>
 </template>
 
