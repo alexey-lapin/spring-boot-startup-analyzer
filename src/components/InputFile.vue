@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import FileUpload from 'primevue/fileupload'
+import FileUpload, { FileUploadUploaderEvent } from 'primevue/fileupload'
 import { useToast } from 'primevue/usetoast'
 
 import DefaultParser from '@/service/DefaultParser'
@@ -20,11 +20,11 @@ const toast = useToast()
 const eventsStore = useEventsStore()
 const parser = new DefaultParser()
 
-function uploader(event: UploaderEvent): void {
+const uploader = (event: FileUploadUploaderEvent): void => {
   readContent(event.files[0])
 }
 
-function readContent(file: File): void {
+const readContent = (file: File): void => {
   const reader: FileReader = new FileReader()
   reader.onload = (event: ProgressEvent<FileReader>) => {
     try {
@@ -43,16 +43,12 @@ function readContent(file: File): void {
   reader.readAsText(file)
 }
 
-function pushToast(message: string): void {
+const pushToast = (message: string): void => {
   toast.add({
     severity: 'error',
     summary: 'Failed to analyze data',
     detail: message,
     life: 3000
   })
-}
-
-interface UploaderEvent {
-  files: File[]
 }
 </script>

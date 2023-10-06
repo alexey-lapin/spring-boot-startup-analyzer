@@ -20,7 +20,7 @@ const parser = new DefaultParser()
 
 const text = ref('')
 
-function readContent(): void {
+const readContent = (): void => {
   if (text.value === '') {
     pushToast('content is empty')
     return
@@ -39,7 +39,7 @@ function readContent(): void {
   }
 }
 
-function pushToast(message: string): void {
+const pushToast = (message: string): void => {
   toast.add({
     severity: 'error',
     summary: 'Failed to analyze data',
