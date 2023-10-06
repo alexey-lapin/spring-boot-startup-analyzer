@@ -17,7 +17,7 @@
 
   <div v-if="eventsStore.isAnalyzed">
     <span class="p-buttonset">
-      <Button :label="eventsStore.appName" class="p-button-text" />
+      <Button :label="eventsStore.appName ?? ''" class="p-button-text" />
       <Button
         icon="pi pi-trash"
         class="p-button-text p-button-danger"

@@ -10,8 +10,9 @@
 </template>
 
 <script setup lang="ts">
-import FileUpload, { FileUploadUploaderEvent } from 'primevue/fileupload'
+import FileUpload from 'primevue/fileupload'
 import { useToast } from 'primevue/usetoast'
+import type { FileUploadUploaderEvent } from 'primevue/fileupload'
 
 import DefaultParser from '@/service/DefaultParser'
 import { useEventsStore } from '@/store/EventsStore'
@@ -21,7 +22,7 @@ const eventsStore = useEventsStore()
 const parser = new DefaultParser()
 
 const uploader = (event: FileUploadUploaderEvent): void => {
-  readContent(event.files[0])
+  Array.isArray(event.files) ? readContent(event.files[0]) : readContent(event.files)
 }
 
 const readContent = (file: File): void => {
