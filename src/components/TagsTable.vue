@@ -1,46 +1,27 @@
 <template>
-  <DataTable
-    v-if="row.data.tags.length > 0"
-    :value="row.data.tags"
-    class="p-datatable-sm"
-    showGridlines
+  <div
+    v-for="tag in props.tags"
+    class="border-1 border-300 border-round hover:border-500 p-1 long-body"
   >
-    <Column headerStyle="display: none" bodyClass="tags-cell-body">
-      <template #body="slotProps"
-        >{{ slotProps.data.key }}: {{ slotProps.data.value }}</template
-      >
-    </Column>
-  </DataTable>
+    <span>{{ tag.key }}: {{ tag.value }}</span>
+  </div>
 </template>
 
 <script setup lang="ts">
-import Column from "primevue/column";
-import DataTable from "primevue/datatable";
+import type Tag from '@/model/Tag'
 
-defineProps(["row"]);
+const props = defineProps<{
+  tags: Tag[]
+}>()
 </script>
 
-<!--<script lang="ts">-->
-<!--import Column from "primevue/column";-->
-<!--import DataTable from "primevue/datatable";-->
-<!--import { Options, Vue } from "vue-class-component";-->
-<!--// import { mapGetters } from "vuex";-->
-
-<!--@Options({-->
-<!--  components: {-->
-<!--    Column,-->
-<!--    DataTable,-->
-<!--  },-->
-<!--  props: ["row"],-->
-<!--})-->
-<!--export default class TagsTable extends Vue {}-->
-<!--</script>-->
-
-<style>
-.tags-cell-body {
-  overflow: hidden;
+<style scoped>
+.long-body {
+  overflow: clip;
+  text-overflow: ellipsis;
 }
-.tags-cell-body:hover {
+
+.long-body:hover {
   word-break: break-all;
 }
 </style>

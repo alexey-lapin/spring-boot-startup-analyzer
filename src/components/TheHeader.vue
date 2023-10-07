@@ -1,59 +1,61 @@
 <template>
-  <div class="">
-    <TabMenu v-model:activeIndex="active" :model="items">
-      <template #item="{ label, item, props }">
-        <router-link v-if="item.route" v-slot="routerProps" :to="item.route" custom>
-          <a
-            :href="routerProps.href"
-            v-bind="props.action"
-            @click="($event) => routerProps.navigate($event)"
-          >
-            <span v-bind="props.icon" />
-            <span v-bind="props.label">{{ label }}</span>
-          </a>
+  <Toolbar>
+    <template #start>
+      <div class="flex gap-1">
+        <router-link to="/">
+          <Button label="Analyzer" plain icon="pi pi-search" text />
         </router-link>
-        <a v-else-if="item.url" :href="item.url" :target="item.target" v-bind="props.action">
-          <span v-bind="props.icon" />
-          <span v-bind="props.label">{{ label }}</span>
+        <router-link to="/usage">
+          <Button label="Usage" plain icon="pi pi-book" text />
+        </router-link>
+        <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer" target="_blank">
+          <Button label="Github" plain icon="pi pi-github" text />
         </a>
-      </template>
-    </TabMenu>
-  </div>
+      </div>
+    </template>
+    <template #end>
+      <div v-if="eventsStore.isAnalyzed" class="flex align-items-center">
+        <Button :label="eventsStore.appName ?? ''" severity="success" text />
+        <Button icon="pi pi-trash" severity="danger" text @click="eventsStore.clearData()" />
+        <Dropdown
+          v-model="activeAnalysisComponentName"
+          :options="options"
+          optionLabel="label"
+          optionValue="value"
+          class="w-8rem"
+          @change="onViewChange"
+        />
+      </div>
+    </template>
+  </Toolbar>
 </template>
 
 <script setup lang="ts">
-import TabMenu from 'primevue/tabmenu'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import Toolbar from 'primevue/toolbar'
+import Button from 'primevue/button'
+import Dropdown from 'primevue/dropdown'
+import type { DropdownChangeEvent } from 'primevue/dropdown'
+
+import { useEventsStore } from '@/store/EventsStore'
+import { useAnalyzerViewStore } from '@/store/AnalyzerViewStore'
 
 const router = useRouter()
 const route = useRoute()
 
-const active = ref(0)
+const eventsStore = useEventsStore()
+const analyzerViewStore = useAnalyzerViewStore()
 
-const items = [
-  { label: 'Analyzer', icon: 'pi pi-search', route: '/' },
-  {
-    label: 'Usage',
-    icon: 'pi pi-book',
-    route: '/usage'
-  },
-  {
-    label: 'GitHub',
-    icon: 'pi pi-github',
-    url: 'https://github.com/alexey-lapin/spring-boot-startup-analyzer',
-    target: '_blank'
-  },
-  {
-    label: 'About',
+const activeAnalysisComponentName = ref('AnalysisTree')
+const options = ref([
+  { label: 'Tree', value: 'AnalysisTree' },
+  { label: 'Table', value: 'AnalysisTable' }
+])
+
+const onViewChange = (event: DropdownChangeEvent) => {
+  if (event.value) {
+    analyzerViewStore.switchComponent(event.value)
   }
-]
-
-watch(
-  route,
-  () => {
-    active.value = items.findIndex((item) => route.path === router.resolve(item.route!).path)
-  },
-  { immediate: true }
-)
+}
 </script>
