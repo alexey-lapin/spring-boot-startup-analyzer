@@ -52,7 +52,7 @@ const items = [
 watch(
   route,
   () => {
-    active.value = items.findIndex((item) => route.path === router.resolve(item.route).path)
+    active.value = items.findIndex((item) => route.path === router.resolve(item.route!).path)
   },
   { immediate: true }
 )
