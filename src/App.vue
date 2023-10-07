@@ -1,28 +1,14 @@
 <template>
   <div class="container">
-    <TabMenu :model="items" class="mb-4" />
-    <router-view />
-    <Toast />
+    <TheHeader class="mb-4" />
+    <router-view/>
+    <Toast/>
   </div>
 </template>
 
 <script setup lang="ts">
-import TabMenu from "primevue/tabmenu";
 import Toast from "primevue/toast";
-
-const items = [
-  { label: "Analyzer", icon: "pi pi-search", to: "/" },
-  {
-    label: "Usage",
-    icon: "pi pi-book",
-    to: "/usage",
-  },
-  {
-    label: "GitHub",
-    icon: "pi pi-github",
-    url: "https://github.com/alexey-lapin/spring-boot-startup-analyzer",
-  },
-];
+import TheHeader from "@/components/TheHeader.vue";
 </script>
 
 <style>
