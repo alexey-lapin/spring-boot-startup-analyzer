@@ -26,6 +26,9 @@
           @change="onViewChange"
         />
       </div>
+      <div v-else>
+        <Button label="Load Sample Json" plain text @click="inputContentStore.loadSample()" />
+      </div>
     </template>
   </Toolbar>
 </template>
@@ -40,12 +43,14 @@ import type { DropdownChangeEvent } from 'primevue/dropdown'
 
 import { useEventsStore } from '@/store/EventsStore'
 import { useAnalyzerViewStore } from '@/store/AnalyzerViewStore'
+import { useInputContentStore } from '@/store/InputContentStore'
 
 const router = useRouter()
 const route = useRoute()
 
 const eventsStore = useEventsStore()
 const analyzerViewStore = useAnalyzerViewStore()
+const inputContentStore = useInputContentStore()
 
 const activeAnalysisComponentName = ref('AnalysisTree')
 const options = ref([

@@ -12,7 +12,7 @@ const lookup = {
 
 type LookupKey = keyof typeof lookup
 
-export const useAnalyzerViewStore = defineStore('analyzer-view', () => {
+export const useAnalyzerViewStore = defineStore('sbsa-analyzer-view', () => {
   const activeComponent = ref(markRaw(AnalysisTree))
 
   const switchComponent = (name: string): void => {

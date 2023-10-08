@@ -1,41 +1,37 @@
 <template>
-  <Textarea v-model="text" rows="10" class="w-full" style="resize: none" />
+  <Textarea
+    v-model="inputContentStore.inputContent"
+    rows="10"
+    class="w-full"
+    style="resize: none"
+  />
   <div class="mt-3 flex justify-content-center">
-    <SplitButton label="Analyze Text" icon="pi pi-file" :model="items" @click="readContent()" />
+    <Button label="Analyze Json" icon="pi pi-file" @click="readContent()" />
   </div>
 </template>
 
 <script setup lang="ts">
-import SplitButton from 'primevue/splitbutton'
+import Button from 'primevue/button'
 import Textarea from 'primevue/textarea'
 import { useToast } from 'primevue/usetoast'
-import { ref } from 'vue'
 
 import DefaultParser from '@/service/DefaultParser'
 import { useEventsStore } from '@/store/EventsStore'
-import sample from '@/assets/sample.json'
+import { useInputContentStore } from '@/store/InputContentStore'
 
 const toast = useToast()
 const eventsStore = useEventsStore()
+const inputContentStore = useInputContentStore()
+
 const parser = new DefaultParser()
 
-const text = ref('')
-
-const items = [
-  {
-    label: 'Load Sample',
-    icon: 'pi pi-th-large',
-    command: () => loadSample()
-  }
-]
-
 const readContent = (): void => {
-  if (text.value === '') {
+  if (inputContentStore.inputContent === '') {
     pushToast('content is empty')
     return
   }
   try {
-    const parseResult = parser.parse(text.value)
+    const parseResult = parser.parse(inputContentStore.inputContent)
     eventsStore.insertData(parseResult)
   } catch (error) {
     let message
@@ -46,10 +42,6 @@ const readContent = (): void => {
     }
     pushToast(message)
   }
-}
-
-const loadSample = (): void => {
-  text.value = JSON.stringify(sample, null, 2)
 }
 
 const pushToast = (message: string): void => {

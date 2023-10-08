@@ -5,7 +5,7 @@ import type DataNode from '@/model/DataNode'
 import type Event from '@/model/Event'
 import type ParseResult from '@/model/ParseResult'
 
-export const useEventsStore = defineStore('events', () => {
+export const useEventsStore = defineStore('sbsa-events', () => {
   const events: Ref<Event[]> = ref([])
   const nodes = ref<DataNode[]>([])
 
