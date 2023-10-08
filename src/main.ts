@@ -1,6 +1,6 @@
 import './assets/main.css'
 import 'primevue/resources/primevue.min.css'
-import 'primevue/resources/themes/saga-blue/theme.css'
+import 'primevue/resources/themes/saga-green/theme.css'
 import 'primeflex/primeflex.css'
 import 'primeicons/primeicons.css'
 
