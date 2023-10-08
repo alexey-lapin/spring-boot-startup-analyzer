@@ -1,0 +1,23 @@
+@import './base.css';
+
+#app {
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+@media screen and (min-width: 1920px) {
+  #app {
+    max-width: 1824px;
+  }
+}
+
+@supports (scrollbar-gutter: stable) {
+  html {
+    scrollbar-gutter: stable;
+  }
+}
+
+body {
+  font-family: var(--font-family);
+}
+
