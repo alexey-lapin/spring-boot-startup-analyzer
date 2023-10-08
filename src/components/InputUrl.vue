@@ -1,6 +1,13 @@
 <template>
   <div class="flex gap-2">
-    <Dropdown v-model="method" :options="['GET', 'POST']" />
+    <Dropdown v-model="method" :options="methods" optionValue="name" optionLabel="name">
+      <template #option="slotProps">
+        <div class="flex gap-2 align-items-center">
+          <span>{{ slotProps.option.name }}</span>
+          <i class="pi pi-question-circle" v-tooltip="slotProps.option.tooltip" />
+        </div>
+      </template>
+    </Dropdown>
     <InputText class="w-full" v-model="url" placeholder="actuator endpoint url" />
   </div>
   <div class="mt-3 flex justify-content-center">
@@ -24,6 +31,11 @@ const parser = new DefaultParser()
 
 const url = ref('http://localhost:8080/actuator/startup')
 const method = ref('GET')
+
+const methods = [
+  { name: 'GET', tooltip: 'Retrieves a snapshot of the Application Startup Steps' },
+  { name: 'POST', tooltip: 'Drains the Application Startup Steps' }
+]
 
 const readContent = () => {
   fetch(url.value, {
