@@ -5,14 +5,14 @@
 </p>
 <h3 align="center">spring-boot-startup-analyzer</h3>
 
-The [spring-boot-startup-analyzer](https://alexey-lapin.github.io/spring-boot-startup-analyzer/) is a Vue.js based
-in-browser parser and visualizer for the Spring Boot Actuator
+The [spring-boot-startup-analyzer](https://alexey-lapin.github.io/spring-boot-startup-analyzer/) is an in-browser parser
+and visualizer for the Spring Boot Actuator
 [startup endpoint](https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/#startup) JSON output.
 
 ### Usage
 
-1. Go to the [app](https://alexey-lapin.github.io/spring-boot-startup-analyzer/) on GitHub Pages
-2. Choose one of the options to provide the startup endpoint JSON output
+1. Go to the [app](https://alexey-lapin.github.io/spring-boot-startup-analyzer/) on GitHub Pages.
+2. Choose one of the options to provide the startup endpoint JSON output:
     - Provide a link to the startup endpoint. This could be from localhost or an internet-accessible service.
       Ensure CORS and security settings are configured correctly. For more details, see
       the [usage](https://alexey-lapin.github.io/spring-boot-startup-analyzer/#/usage) section.
@@ -23,7 +23,10 @@ in-browser parser and visualizer for the Spring Boot Actuator
 
 ### Development
 
-Use `npm run dev` to launch the development server and go to [localhost:5173](http://localhost:5173)
+The app is built on [Vue.js 3](https://vuejs.org/), [PrimeVue](https://primevue.org/), [Vite](https://vitejs.dev/),
+and [TypeScript](https://www.typescriptlang.org/).
+
+Use `npm run dev` to launch the development server and go to [localhost:5173](http://localhost:5173).
 
 ### Docker
 
