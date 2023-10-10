@@ -15,7 +15,10 @@
     </template>
     <template #end>
       <div v-if="eventsStore.isAnalyzed" class="flex align-items-center">
-        <Button :label="eventsStore.appName ?? ''" severity="success" text />
+        <Button severity="success" text>
+          <span>{{ getAppInfo() }}: </span>
+          <b>{{ getAppDuration() }}</b></Button
+        >
         <Button icon="pi pi-trash" severity="danger" text @click="eventsStore.clearData()" />
         <Dropdown
           v-model="activeAnalysisComponentName"
@@ -57,6 +60,17 @@ const options = ref([
   { label: 'Tree', value: 'AnalysisTree' },
   { label: 'Table', value: 'AnalysisTable' }
 ])
+
+const getAppInfo = (): string => {
+  return eventsStore.appName ?? ''
+}
+const getAppDuration = (): string => {
+  return (
+    eventsStore.totalDuration.toLocaleString(undefined, {
+      maximumFractionDigits: 3
+    }) + 'ms'
+  )
+}
 
 const onViewChange = (event: DropdownChangeEvent) => {
   if (event.value) {

@@ -6,6 +6,7 @@ import type Event from '@/model/Event'
 import type ParseResult from '@/model/ParseResult'
 
 export const useEventsStore = defineStore('sbsa-events', () => {
+  const totalDuration = ref(0)
   const events: Ref<Event[]> = ref([])
   const nodes = ref<DataNode[]>([])
 
@@ -21,6 +22,7 @@ export const useEventsStore = defineStore('sbsa-events', () => {
   })
 
   const insertData = (data: ParseResult) => {
+    totalDuration.value = data.totalDuration
     events.value = data.events
     nodes.value = data.nodes
   }
@@ -30,5 +32,5 @@ export const useEventsStore = defineStore('sbsa-events', () => {
     nodes.value = []
   }
 
-  return { events, nodes, isAnalyzed, appName, insertData, clearData }
+  return { totalDuration, events, nodes, isAnalyzed, appName, insertData, clearData }
 })
