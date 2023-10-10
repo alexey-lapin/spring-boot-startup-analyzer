@@ -9,8 +9,8 @@
     <template #header>
       <div class="flex gap-1">
         <MultiSelect
-          v-model="selectedColumns"
-          :options="columns"
+          v-model="toggledColumns"
+          :options="toggleableColumns"
           optionLabel="header"
           placeholder="Select Columns"
           class="mr-auto"
@@ -35,26 +35,26 @@
       </div>
     </template>
     <Column field="id" header="Id" :expander="true" headerStyle="width: 16em"></Column>
-    <Column v-if="isColumnSelected('ParentId')" field="parentId" header="ParentId"></Column>
-    <Column v-if="isColumnSelected('Step')" field="name" header="Step"></Column>
     <Column
-      v-if="isColumnSelected('Summary')"
-      field="summary"
-      header="Sum"
-      headerStyle="width: 5em"
-    >
+      v-if="isColumnToggled('ParentId')"
+      field="parentId"
+      header="PId"
+      headerClass="w-6rem"
+    ></Column>
+    <Column
+      v-if="isColumnToggled('Step')"
+      field="name"
+      header="Step"
+      headerClass="w-22rem"
+    ></Column>
+    <Column v-if="isColumnToggled('Summary')" field="summary" header="Sum" headerClass="w-6rem">
       <template #body="slotProps">
         <span>{{
           slotProps.node.data.summary.toLocaleString(undefined, { maximumFractionDigits: 3 })
         }}</span>
       </template>
     </Column>
-    <Column
-      v-if="isColumnSelected('Duration')"
-      field="duration"
-      header="Dur"
-      headerStyle="width: 5em"
-    >
+    <Column v-if="isColumnToggled('Duration')" field="duration" header="Dur" headerClass="w-6rem">
       <template #body="slotProps">
         <span>{{
           slotProps.node.data.duration.toLocaleString(undefined, { maximumFractionDigits: 3 })
@@ -67,7 +67,7 @@
       header="Percentage"
       headerStyle="width: 5em"
     ></Column> -->
-    <Column v-if="isColumnSelected('Tags')" field="tags" header="Tags">
+    <Column v-if="isColumnToggled('Tags')" field="tags" header="Tags">
       <template #body="slotProps">
         <TagsTable v-if="slotProps.node.data.tags" :tags="slotProps.node.data.tags" />
       </template>
@@ -87,7 +87,9 @@ import { useEventsStore } from '@/store/EventsStore'
 
 const eventsStore = useEventsStore()
 
-const columns: ColumnDescriptor[] = [
+const expandedKeys = ref({} as Record<string, boolean>)
+
+const toggleableColumns = [
   { header: 'ParentId' },
   { header: 'Step' },
   { header: 'Summary' },
@@ -95,22 +97,25 @@ const columns: ColumnDescriptor[] = [
   { header: 'Tags' }
 ]
 
-const expandedKeys = ref({} as Record<string, boolean>)
-const selectedColumns = ref(columns.filter((item: ColumnDescriptor) => item.header !== 'ParentId'))
+const toggledColumns = ref(
+  toggleableColumns.filter((item) => item.header !== 'ParentId')
+)
 
-function isColumnSelected(name: string): boolean {
-  return selectedColumns.value.find((item) => item.header === name) !== undefined
+const isColumnToggled = (name: string) => {
+  return toggledColumns.value.find((item) => item.header === name) !== undefined
 }
 
-function expandAll(): void {
+const expandAll = () => {
   eventsStore.events.forEach((item) => (expandedKeys.value[item.id] = true))
 }
 
-function collapseAll(): void {
+const collapseAll = () => {
   expandedKeys.value = {}
 }
-
-interface ColumnDescriptor {
-  header: string
-}
 </script>
+
+<style scoped>
+:deep(.p-treetable-header) {
+  padding: 0.5rem;
+}
+</style>
