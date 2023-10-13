@@ -3,18 +3,24 @@
     <template #start>
       <div class="flex gap-1">
         <router-link to="/">
-          <Button label="Analyzer" plain icon="pi pi-search" text />
+          <Button label="Analyzer" icon="pi pi-search" plain text />
         </router-link>
         <router-link to="/usage">
-          <Button label="Usage" plain icon="pi pi-book" text />
+          <Button label="Usage" icon="pi pi-book" plain text />
         </router-link>
         <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer" target="_blank">
-          <Button label="Github" plain icon="pi pi-github" text />
+          <Button plain text>
+            <div class="flex align-items-center gap-2">
+              <i class="pi pi-github" />
+              <span>Github</span>
+              <i class="pi pi-external-link" />
+            </div>
+          </Button>
         </a>
       </div>
     </template>
     <template #end>
-      <div v-if="eventsStore.isAnalyzed" class="flex align-items-center">
+      <div v-if="eventsStore.isAnalyzed" class="flex align-items-center gap-1">
         <Button severity="success" text>
           <span>{{ getAppInfo() }}: </span>
           <b>{{ getAppDuration() }}</b></Button
