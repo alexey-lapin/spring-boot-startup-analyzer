@@ -19,12 +19,13 @@
       </div>
     </template>
     <Column field="id" header="Id" headerClass="w-6rem" :sortable="true">
-      <template #filter="{ filterModel }">
+      <template #filter="{ filterModel, applyFilter }">
         <InputNumber
           v-model="filterModel.value"
           type="number"
           class="p-column-filter"
           placeholder="Search by Id"
+          @keyup.enter="applyFilter()"
         />
       </template>
     </Column>
@@ -35,12 +36,13 @@
       headerClass="w-6rem"
       :sortable="true"
     >
-      <template #filter="{ filterModel }">
+      <template #filter="{ filterModel, applyFilter }">
         <InputNumber
           v-model="filterModel.value"
           type="number"
           class="p-column-filter"
           placeholder="Search by ParentId"
+          @keyup.enter="applyFilter()"
         />
       </template>
     </Column>
@@ -51,12 +53,13 @@
       headerClass="w-22rem"
       :sortable="true"
     >
-      <template #filter="{ filterModel }">
+      <template #filter="{ filterModel, applyFilter }">
         <InputText
           v-model="filterModel.value"
           type="text"
           class="p-column-filter"
           placeholder="Search by Step"
+          @keyup.enter="applyFilter()"
         />
       </template>
     </Column>
@@ -73,12 +76,13 @@
           slotProps.data.summary.toLocaleString(undefined, { maximumFractionDigits: 3 })
         }}</span>
       </template>
-      <template #filter="{ filterModel }">
+      <template #filter="{ filterModel, applyFilter }">
         <InputNumber
           v-model="filterModel.value"
           type="number"
           class="p-column-filter"
           placeholder="Search by Summary"
+          @keyup.enter="applyFilter()"
         />
       </template>
     </Column>
@@ -95,12 +99,13 @@
           slotProps.data.duration.toLocaleString(undefined, { maximumFractionDigits: 3 })
         }}</span>
       </template>
-      <template #filter="{ filterModel }">
+      <template #filter="{ filterModel, applyFilter }">
         <InputNumber
           v-model="filterModel.value"
           type="number"
           class="p-column-filter"
           placeholder="Search by Duration"
+          @keyup.enter="applyFilter()"
         />
       </template>
     </Column>
@@ -113,12 +118,13 @@
       <template #body="slotProps">
         <TagsTable v-if="slotProps.data.tags" :tags="slotProps.data.tags" />
       </template>
-      <template #filter="{ filterModel }">
+      <template #filter="{ filterModel, applyFilter }">
         <InputText
           v-model="filterModel.value"
           type="text"
           class="p-column-filter"
           placeholder="Search by Tags"
+          @keyup.enter="applyFilter()"
         />
       </template>
     </Column>
