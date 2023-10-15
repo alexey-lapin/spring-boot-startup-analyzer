@@ -1,5 +1,5 @@
 <template>
-  <Message :closable="false"
+  <Message severity="success" :closable="false"
     >Spring Boot Actuator <i>startup</i> endpoint is available since
     <a href="https://spring.io/blog/2020/11/12/spring-boot-2-4-0-available-now"
       >2.4.0</a

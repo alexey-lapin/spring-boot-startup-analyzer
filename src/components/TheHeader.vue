@@ -44,18 +44,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import Toolbar from 'primevue/toolbar'
 import Button from 'primevue/button'
-import Dropdown from 'primevue/dropdown'
 import type { DropdownChangeEvent } from 'primevue/dropdown'
+import Dropdown from 'primevue/dropdown'
 
 import { useEventsStore } from '@/store/EventsStore'
 import { useAnalyzerViewStore } from '@/store/AnalyzerViewStore'
 import { useInputContentStore } from '@/store/InputContentStore'
-
-const router = useRouter()
-const route = useRoute()
 
 const eventsStore = useEventsStore()
 const analyzerViewStore = useAnalyzerViewStore()
@@ -84,3 +80,9 @@ const onViewChange = (event: DropdownChangeEvent) => {
   }
 }
 </script>
+
+<style scoped>
+.router-link-active button {
+  background: var(--primary-100);
+}
+</style>
