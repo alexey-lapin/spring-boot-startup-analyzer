@@ -18,7 +18,14 @@
         <Button icon="pi pi-filter-slash" label="Clear" plain outlined @click="clearFilter()" />
       </div>
     </template>
-    <Column field="id" header="Id" headerClass="w-6rem" :sortable="true">
+    <Column
+      v-if="isColumnToggled('Id')"
+      field="id"
+      dataType="numeric"
+      header="Id"
+      headerClass="w-6rem"
+      :sortable="true"
+    >
       <template #filter="{ filterModel, applyFilter }">
         <InputNumber
           v-model="filterModel.value"
@@ -32,6 +39,7 @@
     <Column
       v-if="isColumnToggled('ParentId')"
       field="parentId"
+      dataType="numeric"
       header="PId"
       headerClass="w-6rem"
       :sortable="true"
@@ -148,6 +156,7 @@ import type Tag from '@/model/Tag'
 const eventsStore = useEventsStore()
 
 const toggleableColumns = [
+  { header: 'Id' },
   { header: 'ParentId' },
   { header: 'Step' },
   { header: 'Summary' },
