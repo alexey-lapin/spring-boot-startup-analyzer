@@ -6,6 +6,7 @@
     filterDisplay="menu"
     class="p-datatable-sm"
     tableStyle="table-layout: fixed;"
+    @filter="filteredItems = $event.filteredValue.length"
   >
     <template #header>
       <div class="flex justify-content-between">
@@ -136,6 +137,13 @@
         />
       </template>
     </Column>
+    <template #footer>
+      <div class="flex gap-3">
+        <span>Total: {{ eventsStore.events.length }}</span>
+        <span>|</span>
+        <span>Filtered: {{ filteredItems }}</span>
+      </div>
+    </template>
   </DataTable>
 </template>
 
@@ -226,4 +234,6 @@ initFilters()
 const clearFilter = () => {
   initFilters()
 }
+
+const filteredItems = ref(eventsStore.events.length)
 </script>
