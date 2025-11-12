@@ -1,10 +1,14 @@
-import moment from 'moment'
+import type DataNode from '@/model/DataNode'
 import type Event from '@/model/Event'
 import type EventDto from '@/model/dto/EventDto'
-import type StartupDto from '@/model/dto/StartupDto'
-import type DataNode from '@/model/DataNode'
 import type ParseResult from '@/model/ParseResult'
 import type Parser from '@/service/Parser'
+import type StartupDto from '@/model/dto/StartupDto'
+import dayjs from 'dayjs'
+import duration from 'dayjs/plugin/duration'
+
+// Enable duration plugin for dayjs
+dayjs.extend(duration)
 
 export default class DefaultParser implements Parser {
   parse(payloadString: string): ParseResult {
@@ -40,26 +44,31 @@ export default class DefaultParser implements Parser {
     })
     const nodes = treeNodes.filter((item) => item.data.parentId === null)
 
-    return { totalDuration: totalDuration, events: events, nodes: nodes }
+    return {
+      totalDuration: totalDuration,
+      events: events,
+      nodes: nodes,
+      springBootVersion: startupData.springBootVersion ?? null,
+    }
   }
 
   private convertNode(item: EventDto): DataNode {
-    const duration = moment.duration(item.duration).asMilliseconds()
+    const durationMs = dayjs.duration(item.duration).asMilliseconds()
     return {
       key: String(item.startupStep.id),
       data: {
         id: item.startupStep.id,
         parentId: item.startupStep.parentId ?? null,
         name: item.startupStep.name,
-        summary: duration,
-        duration: duration,
+        summary: durationMs,
+        duration: durationMs,
         percentage: 0,
         startTime: new Date(item.startTime),
         endTime: new Date(item.endTime),
-        tags: item.startupStep.tags
+        tags: item.startupStep.tags,
       },
       children: [],
-      leaf: true
+      leaf: true,
     }
   }
 }

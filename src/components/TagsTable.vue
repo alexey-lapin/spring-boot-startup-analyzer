@@ -1,9 +1,26 @@
 <template>
-  <div
-    v-for="tag in props.tags"
-    class="border-1 border-300 border-round hover:border-500 p-1 long-body"
-  >
-    <span>{{ tag.key }}: {{ tag.value }}</span>
+  <div class="flex w-full flex-col gap-1">
+    <div
+      v-for="tag in props.tags"
+      :key="tag.key"
+      :class="[
+        'border',
+        'border-surface-400',
+        'hover:border-surface-500',
+        'p-1',
+        'rounded',
+        'overflow-clip',
+        'text-ellipsis',
+        'truncate',
+        'max-w-full',
+        'w-full',
+        'hover:break-all',
+        'hover:overflow-visible',
+        'hover:whitespace-normal',
+      ]"
+    >
+      <span>{{ tag.key }}: {{ tag.value }}</span>
+    </div>
   </div>
 </template>
 

@@ -1,88 +1,87 @@
 <template>
-  <Toolbar>
-    <template #start>
-      <div class="flex gap-1">
-        <router-link to="/">
-          <Button label="Analyzer" icon="pi pi-search" plain text />
-        </router-link>
-        <router-link to="/usage">
-          <Button label="Usage" icon="pi pi-book" plain text />
-        </router-link>
-        <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer" target="_blank">
-          <Button plain text>
-            <div class="flex align-items-center gap-2">
-              <i class="pi pi-github" />
-              <span>Github</span>
+  <header
+    class="bg-surface-0 dark:bg-surface-900 border-b border-surface-200 dark:border-surface-700 shadow-sm"
+  >
+    <Menubar
+      :model="menuItems"
+      class="border-none bg-transparent"
+    >
+      <template #start>
+        <div class="flex items-center gap-2 mr-4">
+          <i class="pi pi-bolt text-primary text-xl"></i>
+          <span class="font-semibold text-lg hidden sm:inline">Spring Boot Startup</span>
+        </div>
+      </template>
+      <template #item="{ item, label }">
+        <RouterLink
+          v-if="item.route"
+          v-slot="{ navigate, isActive }"
+          :to="item.route"
+          custom
+        >
+          <Button
+            :label="typeof label === 'function' ? label() : label"
+            :icon="item.icon"
+            text
+            :severity="isActive ? 'primary' : 'secondary'"
+            @click="navigate"
+          />
+        </RouterLink>
+        <a
+          v-else-if="item.url"
+          :href="item.url"
+          :target="item.target"
+        >
+          <Button
+            plain
+            text
+          >
+            <div class="flex items-center gap-2">
+              <i :class="item.icon" />
+              <span>{{ item.label }}</span>
               <i class="pi pi-external-link" />
             </div>
           </Button>
         </a>
-      </div>
-    </template>
-    <template #end>
-      <div v-if="eventsStore.isAnalyzed" class="flex align-items-center gap-1">
-        <Button severity="success" text>
-          <span>{{ getAppInfo() }}: </span>
-          <b>{{ getAppDuration() }}</b></Button
-        >
-        <Button icon="pi pi-trash" severity="danger" text @click="eventsStore.clearData()" />
-        <Dropdown
-          v-model="activeAnalysisComponentName"
-          :options="options"
-          optionLabel="label"
-          optionValue="value"
-          class="w-8rem"
-          @change="onViewChange"
-        />
-      </div>
-      <div v-else>
-        <Button label="Load Sample Json" plain text @click="inputContentStore.loadSample()" />
-      </div>
-    </template>
-  </Toolbar>
+      </template>
+      <template #end>
+        <div class="flex items-center gap-2">
+          <Button
+            :icon="isDark ? 'pi pi-sun' : 'pi pi-moon'"
+            text
+            @click="toggleDark()"
+          />
+        </div>
+      </template>
+    </Menubar>
+  </header>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import Toolbar from 'primevue/toolbar'
+import { useDark, useToggle } from '@vueuse/core'
 import Button from 'primevue/button'
-import type { DropdownChangeEvent } from 'primevue/dropdown'
-import Dropdown from 'primevue/dropdown'
+import Menubar from 'primevue/menubar'
+import { ref } from 'vue'
 
-import { useEventsStore } from '@/store/EventsStore'
-import { useAnalyzerViewStore } from '@/store/AnalyzerViewStore'
-import { useInputContentStore } from '@/store/InputContentStore'
+const isDark = useDark({ selector: 'html', attribute: 'class', valueDark: 'dark' })
+const toggleDark = useToggle(isDark)
 
-const eventsStore = useEventsStore()
-const analyzerViewStore = useAnalyzerViewStore()
-const inputContentStore = useInputContentStore()
-
-const activeAnalysisComponentName = ref('AnalysisTree')
-const options = ref([
-  { label: 'Tree', value: 'AnalysisTree' },
-  { label: 'Table', value: 'AnalysisTable' }
+const menuItems = ref([
+  {
+    label: 'Analyzer',
+    icon: 'pi pi-search',
+    route: '/',
+  },
+  {
+    label: 'Usage',
+    icon: 'pi pi-book',
+    route: '/usage',
+  },
+  {
+    label: 'Github',
+    icon: 'pi pi-github',
+    url: 'https://github.com/alexey-lapin/spring-boot-startup-analyzer',
+    target: '_blank',
+  },
 ])
-
-const getAppInfo = (): string => {
-  return eventsStore.appName ?? ''
-}
-const getAppDuration = (): string => {
-  return (
-    eventsStore.totalDuration.toLocaleString(undefined, {
-      maximumFractionDigits: 3
-    }) + 'ms'
-  )
-}
-
-const onViewChange = (event: DropdownChangeEvent) => {
-  if (event.value) {
-    analyzerViewStore.switchComponent(event.value)
-  }
-}
 </script>
-
-<style scoped>
-.router-link-active button {
-  background: var(--primary-100);
-}
-</style>

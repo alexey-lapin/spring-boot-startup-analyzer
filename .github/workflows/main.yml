@@ -2,46 +2,64 @@ on:
   push:
     branches:
       - master
+      - main
     tags:
       - 'v*.*.*'
   pull_request:
     branches:
       - '*'
 
+env:
+  CR_REGISTRY: ghcr.io
+  CR_NAMESPACE: ${{ github.repository_owner }}
+  CR_USERNAME: ${{ github.actor }}
+  CR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
 
-      - uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      
-      - name: install and build
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the project
         env:
           VITE_APP_PUBLIC_PATH: /spring-boot-startup-analyzer
           VITE_APP_HISTORY: hash
-          VITE_APP_ANALYTICS: '<script async defer data-website-id="4a6a54a5-17d3-409d-8b28-988104b6a3e0" src="https://umami.alexey-lapin.com/umami.js"></script>'
-        run: |
-          npm install
-          npm run build
+        run: npm run build
 
-      - name: deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Upload artifact to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          branch: gh-pages
-          folder: dist
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   docker:
     runs-on: ubuntu-latest
@@ -49,11 +67,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Login to Docker Hub
+      - name: Login to Container Registry
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          registry: ${{ env.CR_REGISTRY }}
+          username: ${{ env.CR_USERNAME }}
+          password: ${{ env.CR_PASSWORD }}
 
       - name: Set up Docker Buildx
         id: buildx
@@ -65,7 +84,25 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/spring-boot-startup-analyzer:latest
-            ${{ secrets.DOCKER_HUB_USERNAME }}/spring-boot-startup-analyzer:${{ env.TAG }}
+            ${{ env.CR_REGISTRY }}/${{ env.CR_NAMESPACE }}/spring-boot-startup-analyze:latest
+            ${{ env.CR_REGISTRY }}/${{ env.CR_NAMESPACE }}/spring-boot-startup-analyze:${{ env.TAG }}
+
+  release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          gh release create ${{ github.ref_name }}
+          --title ${{ github.ref_name }}
+          --generate-notes
+          --fail-on-no-commits

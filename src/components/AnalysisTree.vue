@@ -1,121 +1,172 @@
 <template>
   <TreeTable
-    :value="eventsStore.nodes"
-    :expandedKeys="expandedKeys"
-    class="p-treetable-sm"
-    :resizableColumns="true"
-    showGridlines
+    :value="nodes"
+    :expanded-keys="expandedKeys"
+    :indentation="0.4"
+    :resizable-columns="true"
+    :row-hover="true"
+    size="small"
+    table-style="table-layout: fixed; width: 100%;"
   >
     <template #header>
       <div class="flex gap-1">
         <MultiSelect
           v-model="toggledColumns"
           :options="toggleableColumns"
-          optionLabel="header"
+          option-label="header"
           placeholder="Select Columns"
           class="mr-auto"
+          size="small"
         />
         <Button
+          v-tooltip.top="'it may take some time'"
           type="button"
           icon="pi pi-plus"
           label="Expand All"
-          @click="expandAll"
-          v-tooltip.top="'it may take some time'"
-          plain
+          size="small"
           outlined
+          severity="secondary"
+          @click="expandAll"
         />
         <Button
           type="button"
           icon="pi pi-minus"
           label="Collapse All"
-          @click="collapseAll"
-          plain
+          size="small"
           outlined
+          severity="secondary"
+          @click="collapseAll"
         />
       </div>
     </template>
-    <Column field="id" header="Id" :expander="true" headerStyle="width: 16em"></Column>
+    <Column
+      field="id"
+      header="Id"
+      :expander="true"
+      :header-class="columnWidthClasses.id"
+      :body-class="columnWidthClasses.id"
+    />
     <Column
       v-if="isColumnToggled('ParentId')"
       field="parentId"
       header="PId"
-      headerClass="w-6rem"
-    ></Column>
+      :header-class="columnWidthClasses.parentId"
+      :body-class="columnWidthClasses.parentId"
+    />
     <Column
       v-if="isColumnToggled('Step')"
       field="name"
       header="Step"
-      headerClass="w-22rem"
-    ></Column>
-    <Column v-if="isColumnToggled('Summary')" field="summary" header="Sum" headerClass="w-6rem">
+      :header-class="columnWidthClasses.step"
+      :body-class="columnWidthClasses.step"
+    >
+      <template #body="slotProps">
+        <span
+          :class="[
+            'block',
+            'w-full',
+            'overflow-clip',
+            'text-ellipsis',
+            'truncate',
+            'hover:break-all',
+            'hover:overflow-visible',
+            'hover:whitespace-normal',
+          ]"
+        >
+          {{ slotProps.node.data.name }}
+        </span>
+      </template>
+    </Column>
+    <Column
+      v-if="isColumnToggled('Duration')"
+      field="summary"
+      header="Dur"
+      :header-class="columnWidthClasses.duration"
+      :body-class="columnWidthClasses.duration"
+    >
       <template #body="slotProps">
         <span>{{
           slotProps.node.data.summary.toLocaleString(undefined, { maximumFractionDigits: 3 })
         }}</span>
       </template>
     </Column>
-    <Column v-if="isColumnToggled('Duration')" field="duration" header="Dur" headerClass="w-6rem">
+    <Column
+      v-if="isColumnToggled('Self')"
+      field="duration"
+      header="Self"
+      :header-class="columnWidthClasses.self"
+      :body-class="columnWidthClasses.self"
+    >
       <template #body="slotProps">
         <span>{{
           slotProps.node.data.duration.toLocaleString(undefined, { maximumFractionDigits: 3 })
         }}</span>
       </template>
     </Column>
-    <!-- <Column
-      v-if="isColumnSelected('Percentage')"
-      field="percentage"
-      header="Percentage"
-      headerStyle="width: 5em"
-    ></Column> -->
-    <Column v-if="isColumnToggled('Tags')" field="tags" header="Tags">
+    <Column
+      v-if="isColumnToggled('Tags')"
+      field="tags"
+      header="Tags"
+      :header-class="columnWidthClasses.tags"
+      :body-class="columnWidthClasses.tags"
+    >
       <template #body="slotProps">
-        <TagsTable v-if="slotProps.node.data.tags" :tags="slotProps.node.data.tags" />
+        <TagsTable
+          v-if="slotProps.node.data.tags"
+          :tags="slotProps.node.data.tags"
+        />
       </template>
     </Column>
   </TreeTable>
 </template>
 
 <script setup lang="ts">
+import { computed, ref, watch } from 'vue'
 import Button from 'primevue/button'
 import Column from 'primevue/column'
+import type DataNode from '@/model/DataNode'
+import type Event from '@/model/Event'
 import MultiSelect from 'primevue/multiselect'
-import TreeTable from 'primevue/treetable'
-import { ref } from 'vue'
-
 import TagsTable from '@/components/TagsTable.vue'
-import { useEventsStore } from '@/store/EventsStore'
+import TreeTable from 'primevue/treetable'
+import { columnWidthClasses } from '@/constants/columnWidths'
 
-const eventsStore = useEventsStore()
+const props = defineProps<{
+  nodes: DataNode[]
+  events: Event[]
+}>()
+
+const nodes = computed(() => props.nodes)
+const events = computed(() => props.events)
 
 const expandedKeys = ref({} as Record<string, boolean>)
 
 const toggleableColumns = [
   { header: 'ParentId' },
   { header: 'Step' },
-  { header: 'Summary' },
   { header: 'Duration' },
-  { header: 'Tags' }
+  { header: 'Self' },
+  { header: 'Tags' },
 ]
 
-const toggledColumns = ref(
-  toggleableColumns.filter((item) => item.header !== 'ParentId')
-)
+const toggledColumns = ref(toggleableColumns.filter((item) => item.header !== 'ParentId'))
 
 const isColumnToggled = (name: string) => {
   return toggledColumns.value.find((item) => item.header === name) !== undefined
 }
 
 const expandAll = () => {
-  eventsStore.events.forEach((item) => (expandedKeys.value[item.id] = true))
+  events.value.forEach((item) => (expandedKeys.value[item.id] = true))
 }
 
 const collapseAll = () => {
   expandedKeys.value = {}
 }
-</script>
 
-<style scoped>
-:deep(.p-treetable-header) {
-  padding: 0.5rem;
-}
-</style>
+watch(
+  () => props.nodes,
+  () => {
+    collapseAll()
+  },
+)
+</script>
