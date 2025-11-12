@@ -1,47 +1,87 @@
 <template>
-  <prism-editor
-    class="my-editor"
-    :modelValue="code"
-    :highlight="highlighter"
-    :readonly="true"
-    line-numbers
-  ></prism-editor>
+  <div class="my-4 md:my-6">
+    <Card>
+      <template #header>
+        <div
+          class="flex items-center justify-between p-3 md:p-4 border-b border-surface-200 dark:border-surface-700"
+        >
+          <span class="text-xs md:text-sm font-medium text-muted-color uppercase tracking-wide">
+            {{ language }}
+          </span>
+          <Button
+            :icon="copied ? 'pi pi-check' : 'pi pi-copy'"
+            :label="copied ? 'Copied' : 'Copy'"
+            size="small"
+            text
+            @click="copy(code)"
+          />
+        </div>
+      </template>
+      <template #content>
+        <pre
+          class="code-content"
+        ><code :class="`language-${language}`" v-html="highlightedCode" /></pre>
+      </template>
+    </Card>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { PrismEditor } from "vue-prism-editor";
+import Prism from 'prismjs'
+// eslint-disable-next-line sort-imports
+import 'prismjs/themes/prism-tomorrow.css'
+import 'prismjs/components/prism-java'
+import 'prismjs/components/prism-properties'
+import Button from 'primevue/button'
+import Card from 'primevue/card'
+import { computed } from 'vue'
+import { useClipboard } from '@vueuse/core'
 
-import { highlight, languages } from "prismjs";
-import "prismjs/components/prism-java";
-import "prismjs/components/prism-properties";
+const { code = '', language = 'text' } = defineProps<{
+  code: string
+  language: string
+}>()
 
-import "vue-prism-editor/dist/prismeditor.min.css";
-import "prismjs/themes/prism-tomorrow.css";
+const { copy, copied } = useClipboard()
 
-const props = defineProps({
-  code: String,
-  language: String,
-});
-
-function highlighter(code: string): string {
-  const language = props.language as string;
-  return highlight(code, languages[language], language);
-}
+const highlightedCode = computed(() => {
+  if (!code || !language) return ''
+  const grammar = Prism.languages[language]
+  if (grammar) {
+    return Prism.highlight(code, grammar, language)
+  } else {
+    console.warn(`Prism grammar not loaded for language '${language}'`)
+    return code
+  }
+})
 </script>
 
-<style>
-/* required class */
-.my-editor {
-  background: #2d2d2d;
-  color: #ccc;
-
-  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 5px;
+<style scoped>
+:deep(.p-card) {
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
-.prism-editor__textarea:focus {
-  outline: none;
+:deep(.p-card-content) {
+  padding: 0;
+}
+
+.code-content {
+  margin: 0;
+  padding: 1.25rem;
+  overflow-x: auto;
+  background: #2d2d2d;
+}
+
+@media (min-width: 768px) {
+  .code-content {
+    padding: 1.5rem;
+  }
+}
+
+.code-content code {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  background: transparent;
 }
 </style>
