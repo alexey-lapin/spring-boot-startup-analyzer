@@ -87,8 +87,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ env.CR_REGISTRY }}/${{ env.CR_NAMESPACE }}/spring-boot-startup-analyze:latest
-            ${{ env.CR_REGISTRY }}/${{ env.CR_NAMESPACE }}/spring-boot-startup-analyze:${{ env.TAG }}
+            ${{ env.CR_REGISTRY }}/${{ env.CR_NAMESPACE }}/spring-boot-startup-analyzer:latest
+            ${{ env.CR_REGISTRY }}/${{ env.CR_NAMESPACE }}/spring-boot-startup-analyzer:${{ env.TAG }}
 
   release:
     runs-on: ubuntu-latest
