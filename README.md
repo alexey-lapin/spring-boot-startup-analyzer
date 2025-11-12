@@ -32,7 +32,7 @@ Use `npm run dev` to launch the development server and go to [localhost:5173](ht
 
 This app is also available as an
 Nginx-based [Docker](https://hub.docker.com/r/lexlapin/spring-boot-startup-analyzer/tags) image:  
-`docker run -d --name sbsa -p 8080:80 lexlapin/spring-boot-startup-analyzer`
+`docker run -d --name sbsa -p 8080:80 ghcr.io/alexey-lapin/spring-boot-startup-analyzer`
 
 To run it behind a reverse proxy:  
-`docker run -d --name sbsa -p 8080:80 -e UI_PUBLIC_PATH=/some-path lexlapin/spring-boot-startup-analyzer`
+`docker run -d --name sbsa -p 8080:80 -e UI_PUBLIC_PATH=/some-path ghcr.io/alexey-lapin/spring-boot-startup-analyzer`
