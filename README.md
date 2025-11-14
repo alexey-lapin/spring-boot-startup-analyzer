@@ -5,34 +5,60 @@
 </p>
 <h3 align="center">spring-boot-startup-analyzer</h3>
 
-The [spring-boot-startup-analyzer](https://alexey-lapin.github.io/spring-boot-startup-analyzer/) is an in-browser parser
-and visualizer for the Spring Boot Actuator
-[startup endpoint](https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/#startup) JSON output.
+Analyze Spring Boot Actuator `/actuator/startup` payloads directly in your browser. The UI never uploads data to a
+server while still offering rich visualizations and actionable highlights.
 
-### Usage
+➡️ **Try it now:** https://alexey-lapin.github.io/spring-boot-startup-analyzer/
 
-1. Go to the [app](https://alexey-lapin.github.io/spring-boot-startup-analyzer/) on GitHub Pages.
-2. Choose one of the options to provide the startup endpoint JSON output:
-    - Provide a link to the startup endpoint. This could be from localhost or an internet-accessible service.
-      Ensure CORS and security settings are configured correctly. For more details, see
-      the [usage](https://alexey-lapin.github.io/spring-boot-startup-analyzer/#/usage) section.
-    - Select a file from your device.
-    - Paste JSON directly into the text area.
-    - Use example by clicking on the "Load sample data" button.
-3. Review the data in either table or tree view format.
+## Features
 
-### Development
+- **Insights-first summary** view with total duration, hotspot phases, bean bottlenecks, and quick takeaways.
+- **Tree and table visualizations** for drilling into nested startup phases or scanning steps quickly.
+- **Multiple ingestion paths:** paste JSON, upload files, call a live actuator URL, or load the bundled sample trace.
+- **Modern PrimeVue + Tailwind UI** with light/dark presets powered by PrimeUI themes.
+- **Offline parsing** in the browser—no backend component or data collection.
 
-The app is built on [Vue.js 3](https://vuejs.org/), [PrimeVue](https://primevue.org/), [Vite](https://vitejs.dev/),
-and [TypeScript](https://www.typescriptlang.org/).
+## Quick Start
 
-Use `npm run dev` to launch the development server and go to [localhost:5173](http://localhost:5173).
+1. Open the [web app](https://alexey-lapin.github.io/spring-boot-startup-analyzer/).
+2. Choose how to provide startup data:
+    - **Endpoint:** call `/actuator/startup` via GET or POST (configure CORS/security if remote).
+    - **File:** upload a saved JSON response.
+    - **Paste:** drop raw JSON into the editor.
+    - **Sample:** click _Load sample data_ to explore instantly.
+3. Switch between the Summary, Tree, or Table tabs to explore the trace.
 
-### Docker
+> ℹ️ Need CORS for remote URLs? See the Usage tab inside the app for Spring configuration snippets.
 
-This app is also available as an
-Nginx-based [Docker](https://hub.docker.com/r/lexlapin/spring-boot-startup-analyzer/tags) image:  
-`docker run -d --name sbsa -p 8080:80 ghcr.io/alexey-lapin/spring-boot-startup-analyzer`
+## Local Development
 
-To run it behind a reverse proxy:  
-`docker run -d --name sbsa -p 8080:80 -e UI_PUBLIC_PATH=/some-path ghcr.io/alexey-lapin/spring-boot-startup-analyzer`
+```bash
+npm install
+npm run dev
+npm run test:unit
+npm run build
+```
+
+Prerequisites: Node 20+ (or 22 LTS) and npm.
+
+## Docker Image
+
+Images are published to GitHub Container Registry (GHCR):
+
+```bash
+docker run -d --name sbsa -p 8080:80 ghcr.io/alexey-lapin/spring-boot-startup-analyzer:latest
+```
+
+Need a custom base path (e.g., behind a reverse proxy)?
+
+```bash
+docker run -d --name sbsa -p 8080:80 \
+  -e UI_PUBLIC_PATH=/spring-boot-startup-analyzer \
+  ghcr.io/alexey-lapin/spring-boot-startup-analyzer:latest
+```
+
+## Deployment & Release
+
+- GitHub Actions builds, type-checks, and deploys the static site to GitHub Pages for every tag.
+- Tagged builds also publish multi-arch Docker images to `ghcr.io/alexey-lapin/spring-boot-startup-analyzer`.
+- Releases are created automatically via `gh release create` with generated notes.
