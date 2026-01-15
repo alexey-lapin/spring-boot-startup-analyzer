@@ -1,8 +1,8 @@
 import { computed, ref } from 'vue'
 import type DataNode from '@/model/DataNode'
-import DefaultParser from '@/service/DefaultParser'
 import type Event from '@/model/Event'
 import type ParseResult from '@/model/ParseResult'
+import ParserFactory from '@/service/ParserFactory'
 import { defineStore } from 'pinia'
 import { useToast } from 'primevue/usetoast'
 
@@ -15,7 +15,6 @@ type AnalysisSource =
   | { type: 'text' }
   | { type: 'sample' }
 
-const parser = new DefaultParser()
 
 export const useAnalysisStore = defineStore('sbsa-analysis', () => {
   const toast = useToast()
@@ -103,6 +102,7 @@ export const useAnalysisStore = defineStore('sbsa-analysis', () => {
           throw new Error(`Request to ${response.url} returned ${response.status}`)
         }
         const payload = await response.text()
+        const parser = ParserFactory.createParser(payload)
         return parser.parse(payload)
       },
       { type: 'url', details: { url, method } },
@@ -118,6 +118,7 @@ export const useAnalysisStore = defineStore('sbsa-analysis', () => {
     await runAnalysis(
       async () => {
         const payload = await file.text()
+        const parser = ParserFactory.createParser(payload)
         return parser.parse(payload)
       },
       { type: 'file', details: { name: file.name } },
@@ -130,11 +131,17 @@ export const useAnalysisStore = defineStore('sbsa-analysis', () => {
       return
     }
 
-    await runAnalysis(async () => parser.parse(payload), { type: 'text' })
+    await runAnalysis(async () => {
+      const parser = ParserFactory.createParser(payload)
+      return parser.parse(payload)
+    }, { type: 'text' })
   }
 
   const analyzeSample = async (payload: string): Promise<void> => {
-    await runAnalysis(async () => parser.parse(payload), { type: 'sample' })
+    await runAnalysis(async () => {
+      const parser = ParserFactory.createParser(payload)
+      return parser.parse(payload)
+    }, { type: 'sample' })
   }
 
   const clear = (): void => {

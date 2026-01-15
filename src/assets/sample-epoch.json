@@ -1,0 +1,43 @@
+{
+  "springBootVersion": "3.1.4",
+  "timeline": {
+    "startTime": 1696618616.928306,
+    "events": [
+      {
+        "endTime": 1696618617.011537,
+        "duration": 0.066814,
+        "startTime": 1696618616.944722,
+        "startupStep": {
+          "name": "spring.boot.application.starting",
+          "id": 0,
+          "tags": [
+            {
+              "key": "mainApplicationClass",
+              "value": "com.github.alexeylapin.startupdemo.SpringStartupDemo"
+            }
+          ]
+        }
+      },
+      {
+        "endTime": 1696618617.370104,
+        "duration": 0.225399,
+        "startTime": 1696618617.144705,
+        "startupStep": {
+          "name": "spring.boot.application.environment-prepared",
+          "id": 1,
+          "tags": []
+        }
+      },
+      {
+        "endTime": 1696618617.446362,
+        "duration": 0.000389,
+        "startTime": 1696618617.445972,
+        "startupStep": {
+          "name": "spring.boot.application.context-prepared",
+          "id": 2,
+          "tags": []
+        }
+      }
+    ]
+  }
+}
