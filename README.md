@@ -1,30 +1,35 @@
 <p align="center">
     <a href="https://alexey-lapin.github.io/spring-boot-startup-analyzer/">
-        <img src="https://raw.githubusercontent.com/alexey-lapin/spring-boot-startup-analyzer/readme/public/logo.svg" width="200"></img>
+        <img src="public/logo.svg" width="200" alt="Spring Boot Startup Analyzer Logo">
     </a>
 </p>
 <h3 align="center">spring-boot-startup-analyzer</h3>
 
-Analyze Spring Boot Actuator `/actuator/startup` payloads directly in your browser. The UI never uploads data to a
-server while still offering rich visualizations and actionable highlights.
+<p align="center">
+    <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer/releases"><img src="https://img.shields.io/github/v/release/alexey-lapin/spring-boot-startup-analyzer?style=flat-square" alt="Release"></a>
+    <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
+    <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer/actions"><img src="https://img.shields.io/github/actions/workflow/status/alexey-lapin/spring-boot-startup-analyzer/main.yml?style=flat-square" alt="Build Status"></a>
+</p>
+
+Analyze Spring Boot Actuator `/actuator/startup` payloads directly in your browser. All data stays in your browser—no server uploads—while still offering rich visualizations and actionable insights.
 
 ➡️ **Try it now:** https://alexey-lapin.github.io/spring-boot-startup-analyzer/
 
 ## Features
 
-- **Insights-first summary** view with total duration, hotspot phases, bean bottlenecks, and quick takeaways.
+- **Summary view** with total duration, hotspot phases, bean bottlenecks, and key insights at a glance.
 - **Tree and table visualizations** for drilling into nested startup phases or scanning steps quickly.
-- **Multiple ingestion paths:** paste JSON, upload files, call a live actuator URL, or load the bundled sample trace.
-- **Modern PrimeVue + Tailwind UI** with light/dark presets powered by PrimeUI themes.
+- **Flexible data loading:** paste JSON, upload files, call a live actuator endpoint, or load the bundled sample.
+- **Light and dark themes** with a modern, responsive interface.
 - **Offline parsing** in the browser—no backend component or data collection.
 
 ## Quick Start
 
 1. Open the [web app](https://alexey-lapin.github.io/spring-boot-startup-analyzer/).
 2. Choose how to provide startup data:
-    - **Endpoint:** call `/actuator/startup` via GET or POST (configure CORS/security if remote).
+    - **Endpoint:** fetch data directly from `/actuator/startup` (configure CORS if calling a remote server).
     - **File:** upload a saved JSON response.
-    - **Paste:** drop raw JSON into the editor.
+    - **Paste:** paste JSON directly into the text editor.
     - **Sample:** click _Load sample data_ to explore instantly.
 3. Switch between the Summary, Tree, or Table tabs to explore the trace.
 
@@ -49,7 +54,7 @@ Images are published to GitHub Container Registry (GHCR):
 docker run -d --name sbsa -p 8080:80 ghcr.io/alexey-lapin/spring-boot-startup-analyzer:latest
 ```
 
-Need a custom base path (e.g., behind a reverse proxy)?
+To run behind a reverse proxy with a custom base path:
 
 ```bash
 docker run -d --name sbsa -p 8080:80 \
@@ -57,8 +62,9 @@ docker run -d --name sbsa -p 8080:80 \
   ghcr.io/alexey-lapin/spring-boot-startup-analyzer:latest
 ```
 
-## Deployment & Release
+## For Maintainers
 
-- GitHub Actions builds, type-checks, and deploys the static site to GitHub Pages for every tag.
-- Tagged builds also publish multi-arch Docker images to `ghcr.io/alexey-lapin/spring-boot-startup-analyzer`.
-- Releases are created automatically via `gh release create` with generated notes.
+**Deployment & Release:**
+- Tagged commits trigger GitHub Actions to build, type-check, and deploy to GitHub Pages.
+- Multi-arch Docker images are published to `ghcr.io/alexey-lapin/spring-boot-startup-analyzer`.
+- Releases are created automatically with generated notes.
