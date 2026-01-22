@@ -1,9 +1,16 @@
 <p align="center">
     <a href="https://alexey-lapin.github.io/spring-boot-startup-analyzer/">
-        <img src="public/logo.svg" width="200"></img>
+        <img src="public/logo.svg" width="200" alt="Spring Boot Startup Analyzer Logo">
     </a>
 </p>
 <h3 align="center">spring-boot-startup-analyzer</h3>
+
+<p align="center">
+    <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer/releases"><img src="https://img.shields.io/github/v/release/alexey-lapin/spring-boot-startup-analyzer?style=flat-square" alt="Release"></a>
+    <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
+    <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer/actions"><img src="https://img.shields.io/github/actions/workflow/status/alexey-lapin/spring-boot-startup-analyzer/main.yml?style=flat-square" alt="Build Status"></a>
+    <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%5E20.19.0%20%7C%7C%20%3E%3D22.12.0-brightgreen?style=flat-square" alt="Node"></a>
+</p>
 
 Analyze Spring Boot Actuator `/actuator/startup` payloads directly in your browser. The UI never uploads data to a
 server while still offering rich visualizations and actionable highlights.
