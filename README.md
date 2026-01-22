@@ -9,7 +9,6 @@
     <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer/releases"><img src="https://img.shields.io/github/v/release/alexey-lapin/spring-boot-startup-analyzer?style=flat-square" alt="Release"></a>
     <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
     <a href="https://github.com/alexey-lapin/spring-boot-startup-analyzer/actions"><img src="https://img.shields.io/github/actions/workflow/status/alexey-lapin/spring-boot-startup-analyzer/main.yml?style=flat-square" alt="Build Status"></a>
-    <a href="https://nodejs.org"><img src="https://img.shields.io/badge/node-%5E20.19.0%20%7C%7C%20%3E%3D22.12.0-brightgreen?style=flat-square" alt="Node"></a>
 </p>
 
 Analyze Spring Boot Actuator `/actuator/startup` payloads directly in your browser. All data stays in your browser—no server uploads—while still offering rich visualizations and actionable insights.
